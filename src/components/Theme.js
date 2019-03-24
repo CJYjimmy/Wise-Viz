@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import { lightBlue, green, red } from '@material-ui/core/colors';
+import { lightBlue, indigo, red } from '@material-ui/core/colors';
 
 /**
  * Check out https://material-ui.com/customization/themes/ to
@@ -9,8 +9,8 @@ import { lightBlue, green, red } from '@material-ui/core/colors';
  */
 export default createMuiTheme({
     palette: {
-        primary: lightBlue,
-        secondary: green,
+        primary: {main: '#3949ab'},
+        secondary: {main: '#7986cb'},
         error: red
     },
     typography: {
