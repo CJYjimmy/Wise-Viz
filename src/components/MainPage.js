@@ -3,6 +3,7 @@ import { Typography, Button, ListItem, Grid } from '@material-ui/core';
 import './component_style/MainPage.css';
 import { navigate } from 'react-mini-router';
 import HelpView from './Help';
+import RegisterView from './Register';
 import {Helmet} from 'react-helmet';
 
 /**
@@ -18,6 +19,7 @@ export default class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.helpChild = React.createRef();
+        this.regiserChild = React.createRef();
     }
 
     render() {
@@ -36,7 +38,7 @@ export default class MainPage extends React.Component {
                         </ListItem>
 
                         <ListItem>
-                            <Button variant="contained" color="secondary" className="buttons" >New User</Button>
+                            <Button variant="contained" color="secondary" className="buttons" onClick={() => this.ChangeView('/register')}>New User</Button>
                         </ListItem>
                     </div>
                 </Grid>
