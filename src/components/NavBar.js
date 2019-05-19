@@ -7,6 +7,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import OrganizerIcon from '@material-ui/icons/AssignmentInd';
 import VoteIcon from '@material-ui/icons/HowToVote';
+import { navigate } from 'react-mini-router';
 import { Drawer, ListItemIcon, ListItemText, ListItem, Divider } from '@material-ui/core';
 
 import './component_style/NavBar.css';
@@ -27,6 +28,10 @@ export default class NavBar extends React.Component {
         this.helpChild = React.createRef();
     }
 
+    ChangeView(page) {
+        navigate(page);
+    }
+
     toggleDrawer = () => this.setState({ open: !this.state.open });
     closeDrawer = () => this.setState({open: false});
 
@@ -45,7 +50,7 @@ export default class NavBar extends React.Component {
                 <Drawer open={this.state.open} onClose={this.closeDrawer}>
                     <div tabIndex={0} role="button" onClick={this.closeDrawer}>
                         <div width="250">
-                            <ListItem button key='Home'>
+                            <ListItem button key='Home' onClick={() => this.ChangeView('/')} >
                                 <ListItemIcon><HomeIcon /></ListItemIcon>
                                 <ListItemText primary='Home' />
                             </ListItem>
