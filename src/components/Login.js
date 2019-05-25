@@ -2,9 +2,8 @@ import React from 'react';
 import { Typography, Button, TextField } from '@material-ui/core';
 import './component_style/Register.css';
 import { navigate } from 'react-mini-router';
-import {Helmet} from 'react-helmet';
 import InvalidNewUserView from './InvalidNewUserError';
-import RegisterSucceedView from './RegisterSucceed';
+import {Helmet} from 'react-helmet';
 
 /**
  *
@@ -18,23 +17,20 @@ export default class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            newUserData: {
+            userData: {
                 userName: '',
                 password: '',
-                reenterPassword: '',
                 erroInfo: ''
             },
             items: [],
         };
-        this.addNewAccount = this.addNewAccount.bind(this);
-        this.checkUserInfoAndAdd = this.checkUserInfoAndAdd.bind(this);
-        this.existUsername = this.existUsername.bind(this);
+        this.login = this.login.bind(this);
+        this.existUsernameAndPasswordCorrect = this.existUsernameAndPasswordCorrect.bind(this);
         this.invalidNewUserErrorChild = React.createRef();
-        this.registerSucceedChild = React.createRef();
     }
 
     handleEventChange = field => event => {
-        const oldData = this.state.newUserData;
+        const oldData = this.state.userData;
         oldData[field] = event.target.value;
         this.setState({
             newUserData: oldData,
@@ -44,12 +40,9 @@ export default class Register extends React.Component {
     componentDidMount() {
     }
 
-    // go to database to check whether the account has been registered and
-    // go to check whether the password and reentered password are same
-    // if the new account information are all valid, then put the info into DB.
-    checkUserInfoAndAdd() {
+    checkUserInfoAndLogin() {
         let data = {
-            userName: this.state.newUserData.userName
+            userName: this.state.userData.userName
         };
         let request = new Request('http://localhost:3000/api/user-info/check-username-unique', {
             method: 'POST',
@@ -61,67 +54,49 @@ export default class Register extends React.Component {
             .then(items => this.setState({items}))
             .then((event) => {
                 let data = {
-                    userName: this.state.newUserData.userName,
-                    password: this.state.newUserData.password
+                    userName: this.state.userData.userName,
+                    password: this.state.userData.password
                 };
-                let reenterPassword = this.state.newUserData.reenterPassword;
-                if (reenterPassword === data.password && !this.existUsername(data.userName)) {
-                    let request = new Request('http://localhost:3000/api/user-info/post', {
-                        method: 'POST',
-                        headers: new Headers({ 'Content-Type': 'application/json' }),
-                        body: JSON.stringify(data)
-                    });
-
-                    fetch(request)
-                        .then(function(response) {
-                            response.json().then(function(data) {
-                                console.log(data)
-                            })
-                    });
-                    this.registerSucceedChild.current.handleOpen();
+                if (this.existUsernameAndPasswordCorrect(data.userName, data.password)) {
+                    console.log("login");
                 } else {
                     let erroInfo = '';
                     if (data.userName === '') {
                         erroInfo = 'Username cannot be empty!';
                     }
-                    else if (this.existUsername(data.userName)) {
-                        erroInfo = 'The username is registered by the other person!';
+                    else {
+                        erroInfo = 'The username is not exist or the password is incorrect!';
                     }
-                    else if (data.password !== data.reenterPassword) {
-                        erroInfo = 'The password and the reentered Password are different!';
-                    }
-                    this.setState({ newUserData: {
+                    this.setState({ userData: {
                         userName: data.userName,
                         password: data.password,
-                        reenterPassword: reenterPassword,
                         erroInfo: erroInfo
                     }});
                     this.invalidNewUserErrorChild.current.handleOpen();
-                    this.setState({ newUserData: {
+                    this.setState({ userData: {
                         userName: '',
                         password: '',
-                        reenterPassword: '',
-                        erroInfo: this.state.newUserData.erroInfo
+                        erroInfo: this.state.userData.erroInfo
                     }});
                 }
             })
             .catch(err => console.log(err))
     }
 
-    existUsername(username) {
+    existUsernameAndPasswordCorrect(username, password) {
         let exist = false;
         for (let itemInd in this.state.items) {
             let each = this.state.items[itemInd];
-            if (each.userName === username) {
+            if (each.userName === username && each.password === password) {
                 exist = true;
             }
         }
         return exist;
     }
 
-    addNewAccount(event) {
+    login(event) {
         event.preventDefault();
-        this.checkUserInfoAndAdd();
+        this.checkUserInfoAndLogin();
     }
 
     render() {
@@ -130,17 +105,16 @@ export default class Register extends React.Component {
                 <Helmet>
                     <style>{'body { background-color: #eeeeee; }'}</style>
                 </Helmet>
+                <InvalidNewUserView ref={this.invalidNewUserErrorChild} errInfo={this.state.userData.erroInfo}/>
                 <br />
-                <InvalidNewUserView ref={this.invalidNewUserErrorChild} errInfo={this.state.newUserData.erroInfo}/>
-                <RegisterSucceedView ref={this.registerSucceedChild}/>
-                <Typography variant="h4" align="center" gutterBottom>New User</Typography>
-                <form className="eventForm" onSubmit={this.addNewAccount}>
+                <Typography variant="h4" align="center" gutterBottom>Sign in</Typography>
+                <form className="eventForm" onSubmit={this.login}>
                     <TextField
                         required
                         label="User Name"
                         margin="dense"
                         className="registerText"
-                        value={this.state.newUserData.userName}
+                        value={this.state.userData.userName}
                         onChange={this.handleEventChange('userName')}
                         InputLabelProps={{ shrink: true }}
                     />
@@ -151,19 +125,8 @@ export default class Register extends React.Component {
                         type='password'
                         margin="dense"
                         className="registerText"
-                        value={this.state.newUserData.password}
+                        value={this.state.userData.password}
                         onChange={this.handleEventChange('password')}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <br />
-                    <TextField
-                        required
-                        label="Reentered Password"
-                        type='password'
-                        margin="dense"
-                        className="registerText"
-                        value={this.state.newUserData.reenterPassword}
-                        onChange={this.handleEventChange('reenterPassword')}
                         InputLabelProps={{ shrink: true }}
                     />
                     <br /> <br />
@@ -181,7 +144,7 @@ export default class Register extends React.Component {
                         type="submit"
                         color="primary"
                     >
-                        Register
+                        Login
                     </Button>
                 </form>
             </div>

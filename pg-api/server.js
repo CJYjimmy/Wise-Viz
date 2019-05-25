@@ -1,3 +1,4 @@
+const main = require('./main');
 let express = require('express');
 let bodyParser = require('body-parser');
 let morgan = require('morgan');
@@ -26,25 +27,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.post('/api/new-user', function(request, response) {
-    let userName = request.body.userName;
-    let password = request.body.password;
-    let values = [userName, password];
-    pool.connect((err, db, done) => {
-        if (err) {
-            return console.log(err);
-        } else {
-            db.query('INSERT INTO "userInfo" ("userName", "password") VALUES ($1, $2)', values, (err, table) => {
-                done();
-                if (err) {
-                    return console.log(err);
-                } else {
-                    console.log('INSERT SUCCEFUL');
-                }
-            })
-        }
-    })
-});
+app.get('/api/user-info/get', (request, response) => main.getTableData(request, response, pool));
+app.post('/api/user-info/check-username-unique', (request, response) => main.checkUsernameUnique(request, response, pool));
+app.post('/api/user-info/post', (request, response) => main.postTableData(request, response, pool));
+app.put('/api/user-info/put', (request, response) => main.putTableData(request, response, pool));
+app.delete('/api/user-info/delete', (request, response) => main.deleteTableData(request, response, pool));
 
 
 app.listen(3000);
