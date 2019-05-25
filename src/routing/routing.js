@@ -2,6 +2,7 @@ import React from 'react';
 import createReactClass from 'create-react-class';
 import MainPage from '../components/MainPage';
 import Register from '../components/Register';
+import Login from '../components/Login';
 
 var RouterMixin = require('react-mini-router').RouterMixin;
 
@@ -17,7 +18,8 @@ var RoutedApp = createReactClass({
     //      (currently displays the same as /vote)
     routes: {
         '/': 'home',
-        '/register': 'register'
+        '/register': 'register',
+        '/login': 'login'
     },
 
     render() {
@@ -33,6 +35,12 @@ var RoutedApp = createReactClass({
     register() {
         return (
             <Register/>
+        );
+    },
+
+    login() {
+        return (
+            <Login/>
         );
     }
 });

@@ -4,6 +4,7 @@ import './component_style/MainPage.css';
 import { navigate } from 'react-mini-router';
 import HelpView from './Help';
 import RegisterView from './Register';
+import LoginView from './Login';
 import {Helmet} from 'react-helmet';
 
 /**
@@ -19,7 +20,6 @@ export default class MainPage extends React.Component {
     constructor(props) {
         super(props);
         this.helpChild = React.createRef();
-        this.regiserChild = React.createRef();
     }
 
     render() {
@@ -34,7 +34,7 @@ export default class MainPage extends React.Component {
                 <Grid container justify="center">
                     <div className="buttons">
                         <ListItem>
-                            <Button variant="contained" color="primary" className="buttons" >Longin</Button>
+                            <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Longin</Button>
                         </ListItem>
 
                         <ListItem>
