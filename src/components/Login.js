@@ -1,9 +1,12 @@
 import React from 'react';
-import { Typography, Button, TextField } from '@material-ui/core';
+import { IconButton, Typography, Button, TextField } from '@material-ui/core';
 import './component_style/Register.css';
 import { navigate } from 'react-mini-router';
 import InvalidNewUserView from './InvalidNewUserError';
 import {Helmet} from 'react-helmet';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 /**
  *
@@ -18,14 +21,15 @@ export default class Register extends React.Component {
         super(props);
         this.state = {
             userData: {
-                userName: '',
+                email: '',
                 password: '',
                 erroInfo: ''
             },
             items: [],
+            showPassword: false,
         };
         this.login = this.login.bind(this);
-        this.existUsernameAndPasswordCorrect = this.existUsernameAndPasswordCorrect.bind(this);
+        this.existEmailAndPasswordCorrect = this.existEmailAndPasswordCorrect.bind(this);
         this.invalidNewUserErrorChild = React.createRef();
     }
 
@@ -40,11 +44,15 @@ export default class Register extends React.Component {
     componentDidMount() {
     }
 
+    handleClickShowPassword = () => {
+        this.setState({ showPassword: !this.state.showPassword });
+    };
+
     checkUserInfoAndLogin() {
         let data = {
-            userName: this.state.userData.userName
+            email: this.state.userData.email
         };
-        let request = new Request('http://localhost:3000/api/user-info/check-username-unique', {
+        let request = new Request('http://localhost:3000/api/user-info/check-email', {
             method: 'POST',
             headers: new Headers({ 'Content-Type': 'application/json' }),
             body: JSON.stringify(data)
@@ -54,40 +62,41 @@ export default class Register extends React.Component {
             .then(items => this.setState({items}))
             .then((event) => {
                 let data = {
-                    userName: this.state.userData.userName,
+                    email: this.state.userData.email,
                     password: this.state.userData.password
                 };
-                if (this.existUsernameAndPasswordCorrect(data.userName, data.password)) {
-                    console.log("login");
+                if (this.existEmailAndPasswordCorrect(data.email, data.password)) {
+                    this.props.onSuccess(data.email);
+                    this.ChangeView('/');
                 } else {
                     let erroInfo = '';
                     if (data.userName === '') {
-                        erroInfo = 'Username cannot be empty!';
+                        erroInfo = 'Email cannot be empty!';
                     }
                     else {
-                        erroInfo = 'The username is not exist or the password is incorrect!';
+                        erroInfo = 'The email is not exist or the password is incorrect!';
                     }
                     this.setState({ userData: {
-                        userName: data.userName,
+                        email: data.email,
                         password: data.password,
                         erroInfo: erroInfo
                     }});
                     this.invalidNewUserErrorChild.current.handleOpen();
                     this.setState({ userData: {
-                        userName: '',
+                        email: '',
                         password: '',
                         erroInfo: this.state.userData.erroInfo
                     }});
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
     }
 
-    existUsernameAndPasswordCorrect(username, password) {
+    existEmailAndPasswordCorrect(email, password) {
         let exist = false;
         for (let itemInd in this.state.items) {
             let each = this.state.items[itemInd];
-            if (each.userName === username && each.password === password) {
+            if (each.email === email && each.password === password) {
                 exist = true;
             }
         }
@@ -111,23 +120,37 @@ export default class Register extends React.Component {
                 <form className="eventForm" onSubmit={this.login}>
                     <TextField
                         required
-                        label="User Name"
+                        label="User Email"
                         margin="dense"
+                        type="email"
                         className="registerText"
-                        value={this.state.userData.userName}
-                        onChange={this.handleEventChange('userName')}
+                        value={this.state.userData.email}
+                        onChange={this.handleEventChange('email')}
                         InputLabelProps={{ shrink: true }}
                     />
                     <br />
                     <TextField
                         required
                         label="Password"
-                        type='password'
+                        type={this.state.showPassword ? 'text' : 'password'}
                         margin="dense"
                         className="registerText"
                         value={this.state.userData.password}
                         onChange={this.handleEventChange('password')}
                         InputLabelProps={{ shrink: true }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="Toggle password visibility"
+                                        onClick={this.handleClickShowPassword}
+                                    >
+                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                          ),
+                        }}
                     />
                     <br /> <br />
                     <Button
