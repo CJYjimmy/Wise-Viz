@@ -14,3 +14,18 @@
 .fieldset{
     background-color: #FFFFFF;
 }
+
+.postTitleText{
+    width: 100%;
+}
+
+.textarea{
+    width: 98.5%;
+    border: 1px solid lightgray;
+    font-size: 18px;
+}
+
+.postButtons{
+    float: right;
+    width: 20%;
+}
