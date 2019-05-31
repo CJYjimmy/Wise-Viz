@@ -4,7 +4,13 @@
 
 .buttons {
     flex: 1;
-    margin-left: 25%;
-    margin-right: 25%;
     border: none;
+}
+
+.container{
+    flex-wrap: nowrap | wrap | wrap-reverse;
+}
+
+.fieldset{
+    background-color: #FFFFFF;
 }

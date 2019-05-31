@@ -3,6 +3,7 @@ import createReactClass from 'create-react-class';
 import MainPage from '../components/MainPage';
 import Register from '../components/Register';
 import Login from '../components/Login';
+import User from '../components/User';
 
 var RouterMixin = require('react-mini-router').RouterMixin;
 
@@ -12,14 +13,17 @@ var RouterMixin = require('react-mini-router').RouterMixin;
  */
 var RoutedApp = createReactClass({
 
+    getInitialState() {
+        return { loggedIn: this.props.loggedIn};
+    },
+
     mixins: [RouterMixin],
 
-    // TODO: Set up /vote/:text (voteWithID) to handle url-injected event IDs
-    //      (currently displays the same as /vote)
     routes: {
         '/': 'home',
         '/register': 'register',
-        '/login': 'login'
+        '/login': 'login',
+        '/user': 'user'
     },
 
     render() {
@@ -28,7 +32,12 @@ var RoutedApp = createReactClass({
 
     home() {
         return (
-            <MainPage/>
+            <MainPage
+                loggedIn={this.props.loggedIn}
+                onSuccess={this.onSuccess}
+                logout={this.logout}
+                user={this.props.user}
+            />
         );
     },
 
@@ -40,8 +49,33 @@ var RoutedApp = createReactClass({
 
     login() {
         return (
-            <Login/>
+            <Login
+                loggedIn={this.props.loggedIn}
+                onSuccess={this.onSuccess}
+                user={this.props.user}
+            />
         );
+    },
+
+    user() {
+        return (
+            <User
+                logout={this.logout}
+                user={this.props.user}
+            />
+        );
+    },
+
+    notFound(path) {
+        return <div className="not-found">Page Not Found: {path}</div>;
+    },
+
+    onSuccess() {
+        this.props.onSuccess();
+    },
+
+    logout() {
+        this.props.logout();
     }
 });
 

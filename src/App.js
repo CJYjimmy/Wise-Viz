@@ -13,12 +13,54 @@ import './App.css';
  * NavBar
 */
 export default class App extends Component {
-  render() {
+    constructor() {
+        super();
+        this.state = {
+            loggedIn: false,
+            user: ''
+        };
+    }
+
+    componentDidMount() {
+        const user = sessionStorage.getItem('userName') ? {
+            userName: sessionStorage.getItem('userName')
+        } : null;
+        this.setState({
+            loggedIn: user ? true : false,
+            user
+        });
+    }
+
+    onSuccess(userName) {
+        this.setState({
+            loggedIn: true,
+            user: {
+                userName: userName
+            }
+        });
+        sessionStorage.setItem('userName', userName);
+    }
+
+    logout() {
+        this.setState({
+            loggedIn: false,
+            user: null
+        });
+        sessionStorage.removeItem('userName');
+    }
+
+    render() {
         return (
             <MuiThemeProvider theme={theme}>
                 <div>
                     <NavBar />
-                    <RoutedApp/>
+                    <RoutedApp
+                        loggedIn={this.loggedIn}
+                        onSuccess={this.onSuccess.bind(this)}
+                        logout={this.logout.bind(this)}
+                        user={this.state.user}
+                        history={true}
+                    />
                 </div>
             </MuiThemeProvider>
         );

@@ -18,14 +18,15 @@ const getTableData = (request, response, pool) => {
     })
 }
 
-const checkUsernameUnique = (request, response, pool) => {
+const checkUsernameAndEmailUnique = (request, response, pool) => {
     let item = [];
     let userName = request.body.userName;
+    let email = request.body.email;
     pool.connect((err, db, done) => {
         if (err) {
             return console.log(err);
         } else {
-            db.query('SELECT * FROM "userInfo" WHERE "userName"=$1', [userName], (err, table) => {
+            db.query('SELECT * FROM "userInfo" WHERE "userName"=$1 OR "email"=$2 ', [userName, email], (err, table) => {
                 done();
                 item = table.rows;
                 response.send(item);
@@ -39,15 +40,38 @@ const checkUsernameUnique = (request, response, pool) => {
     })
 }
 
-const postTableData = (request, response, pool) => {
-    let userName = request.body.userName;
-    let password = request.body.password;
-    let values = [userName, password];
+const checkEmail = (request, response, pool) => {
+    let item = [];
+    let email = request.body.email;
     pool.connect((err, db, done) => {
         if (err) {
             return console.log(err);
         } else {
-            db.query('INSERT INTO "userInfo" ("userName", "password") VALUES ($1, $2)', values, (err, table) => {
+            db.query('SELECT * FROM "userInfo" WHERE "email"=$1 ', [email], (err, table) => {
+                done();
+                item = table.rows;
+                response.send(item);
+                if (err) {
+                    return console.log(err);
+                } else {
+                    console.log('GET TARGET EMAIL SUCCEFUL');
+                }
+            })
+        }
+    })
+}
+
+const postTableData = (request, response, pool) => {
+    let userID = request.body.userID;
+    let email = request.body.email;
+    let userName = request.body.userName;
+    let password = request.body.password;
+    let values = [userID, email, userName, password];
+    pool.connect((err, db, done) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            db.query('INSERT INTO "userInfo" ("index", "email", "userName", "password") VALUES ($1, $2, $3, $4)', values, (err, table) => {
                 done();
                 if (err) {
                     return console.log(err);
@@ -102,5 +126,6 @@ module.exports = {
     postTableData,
     putTableData,
     deleteTableData,
-    checkUsernameUnique
+    checkUsernameAndEmailUnique,
+    checkEmail,
 }

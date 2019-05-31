@@ -28,7 +28,8 @@ app.use(function(req, res, next) {
 });
 
 app.get('/api/user-info/get', (request, response) => main.getTableData(request, response, pool));
-app.post('/api/user-info/check-username-unique', (request, response) => main.checkUsernameUnique(request, response, pool));
+app.post('/api/user-info/check-username-email-unique', (request, response) => main.checkUsernameAndEmailUnique(request, response, pool));
+app.post('/api/user-info/check-email', (request, response) => main.checkEmail(request, response, pool));
 app.post('/api/user-info/post', (request, response) => main.postTableData(request, response, pool));
 app.put('/api/user-info/put', (request, response) => main.putTableData(request, response, pool));
 app.delete('/api/user-info/delete', (request, response) => main.deleteTableData(request, response, pool));
