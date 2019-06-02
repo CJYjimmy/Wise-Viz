@@ -18,6 +18,27 @@ const getTableData = (request, response, pool) => {
     })
 }
 
+const getUsername = (request, response, pool) => {
+    let userEmail = request.body.email;
+    pool.connect((err, db, done) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            db.query('SELECT * FROM "userInfo" WHERE "email"=$1', [userEmail], (err, table) => {
+                done();
+                console.log(table);
+                username = table.rows;
+                response.send(username);
+                if (err) {
+                    return console.log(err);
+                } else {
+                    console.log('GET SUCCEFUL');
+                }
+            })
+        }
+    })
+}
+
 const checkUsernameAndEmailUnique = (request, response, pool) => {
     let item = [];
     let userName = request.body.userName;
@@ -128,4 +149,5 @@ module.exports = {
     deleteTableData,
     checkUsernameAndEmailUnique,
     checkEmail,
+    getUsername,
 }

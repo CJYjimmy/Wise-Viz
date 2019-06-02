@@ -34,8 +34,8 @@ var RoutedApp = createReactClass({
         return (
             <MainPage
                 loggedIn={this.props.loggedIn}
-                onSuccess={this.onSuccess}
-                logout={this.logout}
+                onSuccess={this.props.onSuccess}
+                logout={this.props.logout}
                 user={this.props.user}
             />
         );
@@ -51,7 +51,7 @@ var RoutedApp = createReactClass({
         return (
             <Login
                 loggedIn={this.props.loggedIn}
-                onSuccess={this.onSuccess}
+                onSuccess={this.props.onSuccess}
                 user={this.props.user}
             />
         );
@@ -60,7 +60,7 @@ var RoutedApp = createReactClass({
     user() {
         return (
             <User
-                logout={this.logout}
+                logout={this.props.logout}
                 user={this.props.user}
             />
         );
@@ -68,14 +68,6 @@ var RoutedApp = createReactClass({
 
     notFound(path) {
         return <div className="not-found">Page Not Found: {path}</div>;
-    },
-
-    onSuccess() {
-        this.props.onSuccess();
-    },
-
-    logout() {
-        this.props.logout();
     }
 });
 
