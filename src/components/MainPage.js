@@ -1,10 +1,12 @@
 import React from 'react';
-import { Typography, Button, ListItem, Grid, TextField } from '@material-ui/core';
+import { Typography, Button, ListItem, Grid } from '@material-ui/core';
 import {  } from 'react-bootstrap'
 import './component_style/MainPage.css';
 import { navigate } from 'react-mini-router';
 import HelpView from './Help';
 import {Helmet} from 'react-helmet';
+import CreatePostView from './CreatePost';
+import Post from './Post';
 
 /**
  * Main View, just contains buttons for navigating to organizer and voting
@@ -21,21 +23,11 @@ export default class MainPage extends React.Component {
         this.state = {
             createPost: false,
             showPosts: true,
-            postTitle: '',
-            postContent: '',
         }
         this.helpChild = React.createRef();
         this.handleCreatePostOpen =  this.handleCreatePostOpen.bind(this);
         this.handleCreatePostClose = this.handleCreatePostClose.bind(this);
         this.logout = this.logout.bind(this);
-    }
-
-    handleEventChange = field => event => {
-        const oldData = this.state;
-        oldData[field] = event.target.value;
-        this.setState({
-            newUserData: oldData,
-        });
     }
 
     handleCreatePostOpen = () => {
@@ -69,48 +61,17 @@ export default class MainPage extends React.Component {
                     <Grid item sm={7}>
                         {
                             this.state.createPost === true && (
-                                <form className="grid" method="post" action="">
-                                    <fieldset className="fieldset">
-                                        <legend>
-                                            New Post
-                                        </legend>
-                                        <h2>Post Title:</h2>
-                                        <TextField
-                                            required
-                                            label="Post Title"
-                                            variant="outlined"
-                                            value={this.state.postTitle}
-                                            className="postTitleText"
-                                            onChange={this.handleEventChange('postTitle')}
-                                        />
-                                        <br />
-                                        <h2>Content:</h2>
-                                        <textarea
-                                            name="message"
-                                            className="textarea"
-                                            rows="10"
-                                            cols="30"
-                                            wrap="soft"
-                                            value={this.state.postContent}
-                                            onChange={this.handleEventChange('postContent')}
-                                        >
-                                        </textarea>
-                                        <br/><br/>
-                                        <Button variant="contained" color="secondary" className="postButtons">Cancel</Button>
-                                        <Button variant="contained" color="primary" className="postButtons">Post</Button>
-                                    </fieldset>
-                                </form>
+                                <CreatePostView email={this.props.user.email} handleCreatePostClose={this.handleCreatePostClose}/>
                             )
                         }
                         {
                             this.state.showPosts === true && (
-                                <Grid container justify="center">
-                                </Grid>
+                                <Post/>
                             )
                         }
                     </Grid>
-
                     <Grid item sm={3}>
+                        <br/>
                         <fieldset className="fieldset">
                             <Typography variant="h5" align="center" gutterBottom>Welcome to Wise-Vizs!</Typography>
                             {

@@ -31,6 +31,8 @@ export default class Register extends React.Component {
         this.login = this.login.bind(this);
         this.existEmailAndPasswordCorrect = this.existEmailAndPasswordCorrect.bind(this);
         this.invalidNewUserErrorChild = React.createRef();
+        this.checkUserInfoAndLogin = this.checkUserInfoAndLogin.bind(this);
+        this.onSuccess = this.onSuccess.bind(this);
     }
 
     handleEventChange = field => event => {
@@ -39,6 +41,11 @@ export default class Register extends React.Component {
         this.setState({
             newUserData: oldData,
         });
+    }
+
+    onSuccess(email) {
+        this.props.onSuccess(email);
+        this.ChangeView('/');
     }
 
     componentDidMount() {
@@ -66,8 +73,7 @@ export default class Register extends React.Component {
                     password: this.state.userData.password
                 };
                 if (this.existEmailAndPasswordCorrect(data.email, data.password)) {
-                    this.props.onSuccess(data.email);
-                    this.ChangeView('/');
+                    this.onSuccess(data.email);
                 } else {
                     let erroInfo = '';
                     if (data.userName === '') {

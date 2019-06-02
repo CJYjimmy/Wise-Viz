@@ -22,8 +22,8 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        const user = sessionStorage.getItem('userName') ? {
-            userName: sessionStorage.getItem('userName')
+        const user = sessionStorage.getItem('email') ? {
+            email: sessionStorage.getItem('email')
         } : null;
         this.setState({
             loggedIn: user ? true : false,
@@ -31,14 +31,14 @@ export default class App extends Component {
         });
     }
 
-    onSuccess(userName) {
+    onSuccess(userEmail) {
         this.setState({
             loggedIn: true,
             user: {
-                userName: userName
+                email: userEmail
             }
         });
-        sessionStorage.setItem('userName', userName);
+        sessionStorage.setItem('email', userEmail);
     }
 
     logout() {
@@ -46,7 +46,7 @@ export default class App extends Component {
             loggedIn: false,
             user: null
         });
-        sessionStorage.removeItem('userName');
+        sessionStorage.removeItem('email');
     }
 
     render() {
