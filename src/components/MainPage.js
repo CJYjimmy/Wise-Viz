@@ -59,6 +59,7 @@ export default class MainPage extends React.Component {
                 <HelpView ref={this.helpChild} />
                 <Grid container justify="center" spacing={24}>
                     <Grid item sm={7}>
+                        <br/>
                         {
                             this.state.createPost === true && (
                                 <CreatePostView email={this.props.user.email} handleCreatePostClose={this.handleCreatePostClose}/>

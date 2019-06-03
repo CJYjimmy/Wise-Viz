@@ -30,3 +30,43 @@
     float: right;
     width: 20%;
 }
+
+.postFieldset{
+    width: 90%;
+    background-color: #FFFFFF;
+    border: 1px solid #7986cb;
+}
+
+.postArticle{
+    align-items: center;
+}
+
+.roundedCircleArticleImg{
+    margin-right: 15px;
+    width: 10%;
+    height: 10%;
+}
+
+.userInfoDiv{
+    display: inline-flex;
+}
+
+.userInfoP{
+    margin: 0;
+    padding: 0;
+}
+
+.postTitle{
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.postContentLayout{
+    width: 100%;
+}
+
+.postContent{
+    margin: 0;
+    padding: 5px;
+}
