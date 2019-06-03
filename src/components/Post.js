@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, TextField, ListItem } from '@material-ui/core';
+import { } from '@material-ui/core';
 import './component_style/MainPage.css';
+import img from './resources/profile_pictures/default_profile_picture.png';
 
 export default class Post extends React.Component {
 
@@ -12,6 +13,10 @@ export default class Post extends React.Component {
         this.getPosts = this.getPosts.bind(this);
     }
 
+    componentDidMount() {
+        this.getPosts();
+    }
+
     getPosts() {
 
         fetch(new Request('http://localhost:3000/api/post-info/get'))
@@ -19,30 +24,28 @@ export default class Post extends React.Component {
             .then(items => this.setState({ posts:items }));
     }
 
-    componentDidMount() {
-        this.getPosts();
-    }
-
     render() {
         return (
-            <div className="content">
-                <div>
-                    <ListItem>
-                        <form className="grid" method="post" action="">
-                            {this.state.posts.map((post, index) => (
-                                <div key={index}>
-                                    <fieldset className="fieldset">
-                                        <h2>{post.title}</h2>
-                                        <p>{post.username} | {post.postTime}</p>
-
-                                    </fieldset>
-                                    <br/>
+            <list className="grid" method="post" action="">
+                {this.state.posts.map((post, index) => (
+                    <article className="postArticle" key={index}>
+                        <fieldset className="postFieldset">
+                            <div className="userInfoDiv">
+                                <img className="roundedCircleArticleImg"
+                                    src={img}>
+                                </img>
+                                <div className="postContentLayout">
+                                    <p className="userInfoP">{post.username} | {post.postTime}</p>
+                                    <hr className="hr" width="100%" color="#7986cb" size={3} />
+                                    <h2 className="postTitle">{post.title}</h2>
+                                    <p className="postContent">{post.content}</p>
                                 </div>
-                            ))}
-                        </form>
-                    </ListItem>
-                </div>
-            </div>
+                            </div>
+                        </fieldset>
+                        <br/>
+                    </article>
+                ))}
+            </list>
         );
     }
 
