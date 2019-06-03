@@ -81,3 +81,10 @@
     margin: 5px !important;
     background: #7986cb;
 }
+
+.currentPageButton{
+    width: 40px;
+    height: 40px;
+    margin: 5px !important;
+    background: #3949ab;
+}
