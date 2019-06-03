@@ -50,26 +50,29 @@ export default class Post extends React.Component {
             });
     }
 
-    updataPosts() {
+    updataPosts(b) {
         let currentShownPosts = [];
-        for (let i = 3 * (this.state.currentPage - 1); i < 3 * this.state.currentPage && i < this.state.numOfPosts; i++) {
+        for (let i = 3 * (b - 1); i < 3 * b && i < this.state.numOfPosts; i++) {
             let post = this.state.posts[i];
             currentShownPosts[i] = post;
         }
         this.setState({
             currentShownPosts: currentShownPosts,
         });
-        this.getPageButtons();
+        this.getPageButtons(b);
     }
 
     updateCurrentPosts(b) {
         this.setState({ currentPage:b });
-        this.updataPosts();
+        this.updataPosts(b);
     }
 
-    getPageButtons() {
+    getPageButtons(b) {
+        if (b == null) {
+            b = 1;
+        }
         let totalPages = this.state.numOfPages;
-        let currentPage = this.state.currentPage;
+        let currentPage = b;
         let buttons = [];
         buttons[0] = 1;
         let index = 1;
@@ -114,9 +117,13 @@ export default class Post extends React.Component {
                     </article>
                 ))}
                 <div className="pageButtons">
-                    {this.state.buttons.map((b, index) => (
-                        <Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>
-                    ))}
+                    {this.state.buttons.map((b, index) => {
+                        if (b === this.state.currentPage) {
+                            return (<Button className="currentPageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>)
+                        } else {
+                            return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>)
+                        }
+                    })}
                 </div>
             </form>
         );

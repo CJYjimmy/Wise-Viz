@@ -77,7 +77,7 @@ export default class CreatePost extends React.Component {
         return (
             <div className="content">
                 <PostSucceedView ref={this.postSucceedChild} handleCreatePostClose={this.props.handleCreatePostClose}/>
-                <form className="grid" method="post" action="">
+                <form className="grid" onSubmit={this.checkPostAndPost}>
                     <fieldset className="fieldset">
                         <legend>
                             New Post
@@ -105,7 +105,7 @@ export default class CreatePost extends React.Component {
                         </textarea>
                         <br/><br/>
                         <Button variant="contained" color="secondary" className="postButtons" onClick={() => this.props.handleCreatePostClose()}>Cancel</Button>
-                        <Button variant="contained" color="primary" className="postButtons" onClick={() => this.checkPostAndPost()}>Post</Button>
+                        <Button variant="contained" color="primary" className="postButtons" type="submit">Post</Button>
                     </fieldset>
                 </form>
             </div>
