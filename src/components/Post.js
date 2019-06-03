@@ -1,5 +1,5 @@
 import React from 'react';
-import { } from '@material-ui/core';
+import { Button } from 'react-bootstrap';
 import './component_style/MainPage.css';
 import img from './resources/profile_pictures/default_profile_picture.png';
 
@@ -8,9 +8,17 @@ export default class Post extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: []
+            posts: [],
+            numOfPosts: 0,
+            currentPage: 1,
+            numOfPages: 0,
+            currentShownPosts: [],
+            buttons: [],
         }
         this.getPosts = this.getPosts.bind(this);
+        this.getPageButtons = this.getPageButtons.bind(this);
+        this.updateCurrentPosts = this.updateCurrentPosts.bind(this);
+        this.updataPosts = this.updataPosts.bind(this);
     }
 
     componentDidMount() {
@@ -21,13 +29,73 @@ export default class Post extends React.Component {
 
         fetch(new Request('http://localhost:3000/api/post-info/get'))
             .then(response => response.json())
-            .then(items => this.setState({ posts:items }));
+            .then(items => this.setState({ posts:items }))
+            .then(() => {
+                let numOfPosts = this.state.posts.length;
+                let numOfPages = Math.ceil(numOfPosts / 3);
+                if (numOfPages === 0) {
+                    numOfPages = 1;
+                }
+                let currentShownPosts = [];
+                for (let i = 3 * (this.state.currentPage - 1); i < 3 * this.state.currentPage && i < numOfPosts; i++) {
+                    let post = this.state.posts[i];
+                    currentShownPosts[i] = post;
+                }
+                this.setState({
+                    numOfPosts: numOfPosts,
+                    numOfPages: numOfPages,
+                    currentShownPosts: currentShownPosts,
+                });
+                this.getPageButtons();
+            });
+    }
+
+    updataPosts() {
+        let currentShownPosts = [];
+        for (let i = 3 * (this.state.currentPage - 1); i < 3 * this.state.currentPage && i < this.state.numOfPosts; i++) {
+            let post = this.state.posts[i];
+            currentShownPosts[i] = post;
+        }
+        this.setState({
+            currentShownPosts: currentShownPosts,
+        });
+        this.getPageButtons();
+    }
+
+    updateCurrentPosts(b) {
+        this.setState({ currentPage:b });
+        this.updataPosts();
+    }
+
+    getPageButtons() {
+        let totalPages = this.state.numOfPages;
+        let currentPage = this.state.currentPage;
+        let buttons = [];
+        buttons[0] = 1;
+        let index = 1;
+        for (let i = currentPage - 2 > 1 ? currentPage - 2 : 2 ; i <= currentPage + 2 && i <= totalPages; i++) {
+            if (buttons[index - 1] + 1 !== i) {
+                buttons[index] = '...';
+                index++;
+            }
+            buttons[index] = i;
+            index++;
+        }
+        if (buttons[index - 1] !== totalPages) {
+            if (buttons[index - 1] !== totalPages - 1) {
+                buttons[index] = '...';
+                buttons[index + 1] = totalPages;
+            } else {
+                buttons[index] = totalPages;
+            }
+        }
+        this.setState({ buttons:buttons });
     }
 
     render() {
         return (
-            <list className="grid" method="post" action="">
-                {this.state.posts.map((post, index) => (
+            <form className="grid" method="post" action="">
+                {this.state.currentShownPosts.map((post, index) => (
                     <article className="postArticle" key={index}>
                         <fieldset className="postFieldset">
                             <div className="userInfoDiv">
@@ -45,7 +113,12 @@ export default class Post extends React.Component {
                         <br/>
                     </article>
                 ))}
-            </list>
+                <div className="pageButtons">
+                    {this.state.buttons.map((b, index) => (
+                        <Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>
+                    ))}
+                </div>
+            </form>
         );
     }
 
