@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import './component_style/MainPage.css';
 import img from './resources/profile_pictures/default_profile_picture.png';
 import { navigate } from 'react-mini-router';
+import ChangePageView from './ChangePage';
 
 export default class Post extends React.Component {
 
@@ -24,6 +25,7 @@ export default class Post extends React.Component {
         this.getPageButtons = this.getPageButtons.bind(this);
         this.updateCurrentPosts = this.updateCurrentPosts.bind(this);
         this.updataPosts = this.updataPosts.bind(this);
+        this.changePageChild = React.createRef();
     }
 
     componentDidMount() {
@@ -116,6 +118,7 @@ export default class Post extends React.Component {
     render() {
         return (
             <form className="grid" method="post" action="">
+                <ChangePageView ref={this.changePageChild} choosePage={this.updateCurrentPosts} totalPages={this.state.numOfPages} />
                 {this.state.currentShownPosts.map((post, index) => (
                     <article className="postArticle" key={index}>
                         <fieldset className="postFieldset">
@@ -143,7 +146,11 @@ export default class Post extends React.Component {
                     {this.state.buttons.map((b, index) => {
                         if (b === this.state.currentPage) {
                             return (<Button className="currentPageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>)
-                        } else {
+                        }
+                        else if (b === '...') {
+                            return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.changePageChild.current.handleOpen()}>{b}</Button>)
+                        }
+                        else {
                             return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>)
                         }
                     })}

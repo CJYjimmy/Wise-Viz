@@ -6,6 +6,8 @@ import { navigate } from 'react-mini-router';
 import {Helmet} from 'react-helmet';
 import CreatePostView from './CreatePost';
 import Post from './Post';
+import HelpView from './Help';
+
 
 /**
  * Main View, just contains buttons for navigating to organizer and voting
@@ -56,10 +58,9 @@ export default class MainPage extends React.Component {
                 </Helmet>
                 <br />
 
-
-
                 { this.props.clickedUsername === '' && (
                     <Grid container justify="center" spacing={24}>
+                        <HelpView ref={this.helpChild} />
                         <Grid item sm={7}>
                             <br/>
                             {
