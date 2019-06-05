@@ -18,3 +18,13 @@
     text-align: center;
 }
 
+.pageNumTextField{
+}
+
+.changePageD{
+    display: inline-grid;
+}
+
+.error{
+    color: red;
+}
