@@ -18,6 +18,27 @@ const getTableData = (request, response, pool) => {
     })
 }
 
+const getClickUserPosts = (request, response, pool) => {
+    let items = [];
+    let username = request.body.username;
+    pool.connect((err, db, done) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            db.query('SELECT * FROM "postInfo" WHERE "username"=$1 ORDER BY "postTime" DESC', [username], (err, table) => {
+                done();
+                items = table.rows;
+                response.send(items);
+                if (err) {
+                    return console.log(err);
+                } else {
+                    console.log('GET SUCCEFUL');
+                }
+            })
+        }
+    })
+}
+
 const checkEmail = (request, response, pool) => {
     let item = [];
     let email = request.body.email;
@@ -111,5 +132,6 @@ module.exports = {
     putTableData,
     deleteTableData,
     checkEmail,
+    getClickUserPosts,
 }
 

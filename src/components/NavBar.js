@@ -8,7 +8,7 @@ import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import OrganizerIcon from '@material-ui/icons/AssignmentInd';
 import VoteIcon from '@material-ui/icons/HowToVote';
 import { navigate } from 'react-mini-router';
-import { Drawer, ListItemIcon, ListItemText, ListItem, Divider } from '@material-ui/core';
+import { Drawer, ListItemIcon, Button, ListItemText, ListItem, Divider } from '@material-ui/core';
 
 import './component_style/NavBar.css';
 import logoSvg from '../logo.svg';
@@ -45,6 +45,7 @@ export default class NavBar extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <img src={logoSvg} className="navTitle" alt="talli" />
+                        <Button color="inherit" onClick={() => this.ChangeView('/')}>Home</Button>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.open} onClose={this.closeDrawer}>

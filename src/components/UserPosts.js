@@ -1,10 +1,16 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import './component_style/MainPage.css';
+import { Button } from '@material-ui/core';
+import './component_style/UserPosts.css';
 import img from './resources/profile_pictures/default_profile_picture.png';
 import { navigate } from 'react-mini-router';
+import {Helmet} from 'react-helmet';
 
-export default class Post extends React.Component {
+/**
+ * Main View, just contains buttons for navigating to organizer and voting
+ * views.
+ * TODO: Clean up the button styling a bit
+ */
+export default class UserPosts extends React.Component {
 
     ChangeView(page) {
         navigate(page);
@@ -31,8 +37,15 @@ export default class Post extends React.Component {
     }
 
     getPosts() {
+        let data = { username:this.props.clickedUsername };
 
-        fetch(new Request('http://localhost:3000/api/post-info/get'))
+        let request = new Request('http://localhost:3000/api/post-info/get-click-user-post', {
+            method: 'POST',
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(data)
+        });
+
+        fetch(request)
             .then(response => response.json())
             .then(items => this.setState({ posts:items }))
             .then(() => {
@@ -102,42 +115,46 @@ export default class Post extends React.Component {
 
     render() {
         return (
-            <form className="grid" method="post" action="">
-                {this.state.currentShownPosts.map((post, index) => (
-                    <article className="postArticle" key={index}>
-                        <fieldset className="postFieldset">
-                            <div className="userInfoDiv">
-                                <img className="roundedCircleArticleImg"
-                                    src={img}>
-                                </img>
-                                <div className="postContentLayout">
-                                    <div className="postProfile">
-                                        <a className="userInfoPUsername" onClick={() => {
-                                                this.props.updateClickedUsername(post.username)
-                                                this.ChangeView('/userPosts');
-                                            }}>{post.username}</a>
-                                        <p className="userInfoP">| {post.postTime}</p>
+            <div className="content">
+                <Helmet>
+                    <style>{'body { background-color: #eeeeee; }'}</style>
+                </Helmet>
+                <br />
+                { this.props.clickedUsername === '' && this.ChangeView('/')}
+                <form method="post" action="">
+                    <h1 className="userPostTitle">{this.props.clickedUsername} 's posts</h1>
+                    {this.state.currentShownPosts.map((post, index) => (
+                        <article className="postArticle" key={index}>
+                            <fieldset className="postFieldset">
+                                <div className="userInfoDiv">
+                                    <img className="roundedCircleArticleImg"
+                                        src={img}>
+                                    </img>
+                                    <div className="postContentLayout">
+                                        <div className="postProfile">
+                                            <a className="userInfoPUsername" onClick={() => this.ChangeView('/userPosts')}>{post.username}</a>
+                                            <p className="userInfoP">| {post.postTime}</p>
+                                        </div>
+                                        <hr className="hr" width="100%" color="#7986cb" size={3} />
+                                        <h2 className="h2ForPostTitle"><a className="postTitle" onClick={() => console.log('click')}>{post.title}</a></h2>
+                                        <p className="postContent">{post.content}</p>
                                     </div>
-                                    <hr className="hr" width="100%" color="#7986cb" size={3} />
-                                    <h2 className="h2ForPostTitle"><a className="postTitle" onClick={() => console.log('click')}>{post.title}</a></h2>
-                                    <p className="postContent">{post.content}</p>
                                 </div>
-                            </div>
-                        </fieldset>
-                        <br/>
-                    </article>
-                ))}
-                <div className="pageButtons">
-                    {this.state.buttons.map((b, index) => {
-                        if (b === this.state.currentPage) {
-                            return (<Button className="currentPageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>)
-                        } else {
-                            return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</Button>)
-                        }
-                    })}
-                </div>
-            </form>
+                            </fieldset>
+                            <br/>
+                        </article>
+                    ))}
+                    <div className="pageButtons">
+                        {this.state.buttons.map((b, index) => {
+                            if (b === this.state.currentPage) {
+                                return (<button className="currentPageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</button>)
+                            } else {
+                                return (<button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentPosts(b)}>{b}</button>)
+                            }
+                        })}
+                    </div>
+                </form>
+            </div>
         );
     }
-
 }

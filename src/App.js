@@ -17,7 +17,8 @@ export default class App extends Component {
         super();
         this.state = {
             loggedIn: false,
-            user: ''
+            user: '',
+            clickedUsername: '',
         };
     }
 
@@ -29,6 +30,13 @@ export default class App extends Component {
             loggedIn: user ? true : false,
             user
         });
+    }
+
+    updateClickedUsername(username) {
+        this.setState({
+            clickedUsername: username,
+        });
+        sessionStorage.setItem('clickedUsername', username);
     }
 
     onSuccess(userEmail) {
@@ -60,6 +68,8 @@ export default class App extends Component {
                         logout={this.logout.bind(this)}
                         user={this.state.user}
                         history={true}
+                        clickedUsername={this.state.clickedUsername}
+                        updateClickedUsername={this.updateClickedUsername.bind(this)}
                     />
                 </div>
             </MuiThemeProvider>
