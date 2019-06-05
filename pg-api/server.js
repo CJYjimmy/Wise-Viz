@@ -37,6 +37,7 @@ app.put('/api/user-info/put', (request, response) => main.putTableData(request, 
 app.delete('/api/user-info/delete', (request, response) => main.deleteTableData(request, response, pool));
 
 app.get('/api/post-info/get', (request, response) => postInfo.getTableData(request, response, pool));
+app.post('/api/post-info/get-click-user-post', (request, response) => postInfo.getClickUserPosts(request, response, pool));
 app.post('/api/post-info/check-email', (request, response) => postInfo.checkEmail(request, response, pool));
 app.post('/api/post-info/post', (request, response) => postInfo.postTableData(request, response, pool));
 app.put('/api/post-info/put', (request, response) => postInfo.putTableData(request, response, pool));

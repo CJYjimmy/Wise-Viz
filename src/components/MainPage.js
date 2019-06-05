@@ -3,7 +3,6 @@ import { Typography, Button, ListItem, Grid } from '@material-ui/core';
 import {  } from 'react-bootstrap'
 import './component_style/MainPage.css';
 import { navigate } from 'react-mini-router';
-import HelpView from './Help';
 import {Helmet} from 'react-helmet';
 import CreatePostView from './CreatePost';
 import Post from './Post';
@@ -56,7 +55,6 @@ export default class MainPage extends React.Component {
                     <style>{'body { background-color: #eeeeee; }'}</style>
                 </Helmet>
                 <br />
-                <HelpView ref={this.helpChild} />
                 <Grid container justify="center" spacing={24}>
                     <Grid item sm={7}>
                         <br/>
@@ -67,7 +65,7 @@ export default class MainPage extends React.Component {
                         }
                         {
                             this.state.showPosts === true && (
-                                <Post/>
+                                <Post updateClickedUsername={this.props.updateClickedUsername}/>
                             )
                         }
                     </Grid>

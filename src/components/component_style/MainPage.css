@@ -49,9 +49,24 @@
 
 .userInfoDiv{
     display: inline-flex;
+    width: 100%;
 }
 
 .userInfoP{
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+}
+
+.userInfoPUsername{
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+    color: #3949ab;
+    text-decoration: none;
+}
+
+.h2ForPostTitle{
     margin: 0;
     padding: 0;
 }
@@ -60,6 +75,18 @@
     font-size: 30px;
     margin: 0;
     padding: 0;
+    color: #444444;
+    text-decoration: none;
+}
+
+a.postTitle:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+a.userInfoPUsername:hover {
+  color: #428bca;
+  text-decoration: none;
 }
 
 .postContentLayout{
@@ -87,4 +114,8 @@
     height: 40px;
     margin: 5px !important;
     background: #3949ab;
+}
+
+.postProfile{
+    display: inline-flex;
 }
