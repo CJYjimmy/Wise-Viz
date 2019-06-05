@@ -45,7 +45,9 @@ export default class NavBar extends React.Component {
                             <MenuIcon />
                         </IconButton>
                         <img src={logoSvg} className="navTitle" alt="talli" />
-                        <Button color="inherit" onClick={() => this.ChangeView('/')}>Home</Button>
+                        <Button color="inherit" onClick={() => {
+                            this.props.updateClickedUsername('');
+                        }}>Home</Button>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.open} onClose={this.closeDrawer}>

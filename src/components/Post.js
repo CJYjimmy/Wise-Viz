@@ -32,27 +32,40 @@ export default class Post extends React.Component {
 
     getPosts() {
 
-        fetch(new Request('http://localhost:3000/api/post-info/get'))
-            .then(response => response.json())
-            .then(items => this.setState({ posts:items }))
-            .then(() => {
-                let numOfPosts = this.state.posts.length;
-                let numOfPages = Math.ceil(numOfPosts / 3);
-                if (numOfPages === 0) {
-                    numOfPages = 1;
-                }
-                let currentShownPosts = [];
-                for (let i = 3 * (this.state.currentPage - 1); i < 3 * this.state.currentPage && i < numOfPosts; i++) {
-                    let post = this.state.posts[i];
-                    currentShownPosts[i] = post;
-                }
-                this.setState({
-                    numOfPosts: numOfPosts,
-                    numOfPages: numOfPages,
-                    currentShownPosts: currentShownPosts,
-                });
-                this.getPageButtons();
+        let data = { username:this.props.clickedUsername };
+        let request = '';
+
+        if (this.props.clickedUsername === '') {
+            request = new Request('http://localhost:3000/api/post-info/get')
+
+        } else {
+            request = new Request('http://localhost:3000/api/post-info/get-click-user-post', {
+                method: 'POST',
+                headers: new Headers({ 'Content-Type': 'application/json' }),
+                body: JSON.stringify(data)
             });
+        }
+        fetch(request)
+                .then(response => response.json())
+                .then(items => this.setState({ posts:items }))
+                .then(() => {
+                    let numOfPosts = this.state.posts.length;
+                    let numOfPages = Math.ceil(numOfPosts / 3);
+                    if (numOfPages === 0) {
+                        numOfPages = 1;
+                    }
+                    let currentShownPosts = [];
+                    for (let i = 3 * (this.state.currentPage - 1); i < 3 * this.state.currentPage && i < numOfPosts; i++) {
+                        let post = this.state.posts[i];
+                        currentShownPosts[i] = post;
+                    }
+                    this.setState({
+                        numOfPosts: numOfPosts,
+                        numOfPages: numOfPages,
+                        currentShownPosts: currentShownPosts,
+                    });
+                    this.getPageButtons();
+                });
     }
 
     updataPosts(b) {
@@ -107,19 +120,18 @@ export default class Post extends React.Component {
                     <article className="postArticle" key={index}>
                         <fieldset className="postFieldset">
                             <div className="userInfoDiv">
-                                <img className="roundedCircleArticleImg"
+                                <img className="roundedCircleArticleImg" alt="user"
                                     src={img}>
                                 </img>
                                 <div className="postContentLayout">
                                     <div className="postProfile">
-                                        <a className="userInfoPUsername" onClick={() => {
+                                        <a className="userInfoPUsername" href="/" onClick={() => {
                                                 this.props.updateClickedUsername(post.username)
-                                                this.ChangeView('/userPosts');
                                             }}>{post.username}</a>
                                         <p className="userInfoP">| {post.postTime}</p>
                                     </div>
                                     <hr className="hr" width="100%" color="#7986cb" size={3} />
-                                    <h2 className="h2ForPostTitle"><a className="postTitle" onClick={() => console.log('click')}>{post.title}</a></h2>
+                                    <h2 className="h2ForPostTitle"><a className="postTitle" href="/" onClick={() => console.log('click')}>{post.title}</a></h2>
                                     <p className="postContent">{post.content}</p>
                                 </div>
                             </div>
