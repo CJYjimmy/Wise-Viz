@@ -1,10 +1,27 @@
-.content {
-    padding: 10px;
+a.postTitle:hover {
+  color: #428bca;
+  text-decoration: none;
+}
+
+a.userInfoPUsername:hover {
+  color: #428bca;
+  text-decoration: none;
 }
 
 .buttons {
     flex: 1;
     border: none;
+}
+
+.content {
+    padding: 10px;
+}
+
+.currentPageButton{
+    width: 40px;
+    height: 40px;
+    margin: 5px !important;
+    background: #3949ab;
 }
 
 .container{
@@ -16,14 +33,17 @@
     border: 1px solid #7986cb;
 }
 
-.postTitleText{
-    width: 100%;
+form{
+    align-items: center;
 }
 
-.textarea{
-    width: 98.5%;
-    border: 1px solid lightgray;
-    font-size: 18px;
+.h2ForPostTitle{
+    margin: 0;
+    padding: 0;
+}
+
+.postTitleText{
+    width: 100%;
 }
 
 .postButtons{
@@ -41,52 +61,12 @@
     align-items: center;
 }
 
-.roundedCircleArticleImg{
-    margin-right: 15px;
-    width: 10%;
-    height: 10%;
-}
-
-.userInfoDiv{
-    display: inline-flex;
-    width: 100%;
-}
-
-.userInfoP{
-    margin: 0;
-    margin-right: 5px;
-    padding: 0;
-}
-
-.userInfoPUsername{
-    margin: 0;
-    margin-right: 5px;
-    padding: 0;
-    color: #3949ab;
-    text-decoration: none;
-}
-
-.h2ForPostTitle{
-    margin: 0;
-    padding: 0;
-}
-
 .postTitle{
     font-size: 30px;
     margin: 0;
     padding: 0;
     color: #444444;
     text-decoration: none;
-}
-
-a.postTitle:hover {
-  color: #428bca;
-  text-decoration: none;
-}
-
-a.userInfoPUsername:hover {
-  color: #428bca;
-  text-decoration: none;
 }
 
 .postContentLayout{
@@ -109,13 +89,43 @@ a.userInfoPUsername:hover {
     background: #7986cb;
 }
 
-.currentPageButton{
-    width: 40px;
-    height: 40px;
-    margin: 5px !important;
-    background: #3949ab;
-}
-
 .postProfile{
     display: inline-flex;
 }
+
+.roundedCircleArticleImg{
+    margin-right: 15px;
+    width: 10%;
+    height: 10%;
+}
+
+.textarea{
+    width: 98.5%;
+    border: 1px solid lightgray;
+    font-size: 18px;
+}
+
+.userInfoDiv{
+    display: inline-flex;
+    width: 100%;
+}
+
+.userInfoP{
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+}
+
+.userInfoPUsername{
+    margin: 0;
+    margin-right: 5px;
+    padding: 0;
+    color: #3949ab;
+    text-decoration: none;
+}
+
+.userPostTitle{
+    text-align: center;
+    color: #7986cb;
+}
+

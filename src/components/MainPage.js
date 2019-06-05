@@ -55,62 +55,76 @@ export default class MainPage extends React.Component {
                     <style>{'body { background-color: #eeeeee; }'}</style>
                 </Helmet>
                 <br />
-                <Grid container justify="center" spacing={24}>
-                    <Grid item sm={7}>
-                        <br/>
-                        {
-                            this.state.createPost === true && (
-                                <CreatePostView email={this.props.user.email} handleCreatePostClose={this.handleCreatePostClose}/>
-                            )
-                        }
-                        {
-                            this.state.showPosts === true && (
-                                <Post updateClickedUsername={this.props.updateClickedUsername}/>
-                            )
-                        }
-                    </Grid>
-                    <Grid item sm={3}>
-                        <br/>
-                        <fieldset className="fieldset">
-                            <Typography variant="h5" align="center" gutterBottom>Welcome to Wise-Vizs!</Typography>
-                            {
-                                this.props.user == null && (
-                                    <Grid container justify="center">
-                                        <div className="buttons">
-                                            <ListItem>
-                                                <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Log in</Button>
-                                            </ListItem>
 
-                                            <ListItem>
-                                                <Button variant="contained" color="secondary" className="buttons" onClick={() => this.ChangeView('/register')}>Sign Up</Button>
-                                            </ListItem>
-                                        </div>
-                                    </Grid>
+
+
+                { this.props.clickedUsername === '' && (
+                    <Grid container justify="center" spacing={24}>
+                        <Grid item sm={7}>
+                            <br/>
+                            {
+                                this.state.createPost === true && (
+                                    <CreatePostView email={this.props.user.email} handleCreatePostClose={this.handleCreatePostClose}/>
                                 )
                             }
                             {
-                                this.props.user != null && (
-                                    <Grid container justify="center">
-                                        <div>
-                                            <ListItem>
-                                                <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Create Community</Button>
-                                            </ListItem>
-
-                                            <ListItem>
-                                                <Button variant="contained" color="primary" className="buttons" onClick={() => this.handleCreatePostOpen()}>Create Post</Button>
-                                            </ListItem>
-
-                                            <ListItem>
-                                                <Button variant="contained" color="secondary" className="buttons" onClick={() => this.logout()}>Logout</Button>
-                                            </ListItem>
-                                        </div>
-                                    </Grid>
+                                this.state.showPosts === true && (
+                                    <Post updateClickedUsername={this.props.updateClickedUsername} clickedUsername={this.props.clickedUsername}/>
                                 )
                             }
-                            <p align="center" onClick={() => this.helpChild.current.handleOpen()}>About Wise-Viz</p>
-                        </fieldset>
+                        </Grid>
+                        <Grid item sm={3}>
+                            <br/>
+                            <fieldset className="fieldset">
+                                <Typography variant="h5" align="center" gutterBottom>Welcome to Wise-Vizs!</Typography>
+                                {
+                                    this.props.user == null && (
+                                        <Grid container justify="center">
+                                            <div className="buttons">
+                                                <ListItem>
+                                                    <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Log in</Button>
+                                                </ListItem>
+
+                                                <ListItem>
+                                                    <Button variant="contained" color="secondary" className="buttons" onClick={() => this.ChangeView('/register')}>Sign Up</Button>
+                                                </ListItem>
+                                            </div>
+                                        </Grid>
+                                    )
+                                }
+                                {
+                                    this.props.user != null && (
+                                        <Grid container justify="center">
+                                            <div>
+                                                <ListItem>
+                                                    <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Create Community</Button>
+                                                </ListItem>
+
+                                                <ListItem>
+                                                    <Button variant="contained" color="primary" className="buttons" onClick={() => this.handleCreatePostOpen()}>Create Post</Button>
+                                                </ListItem>
+
+                                                <ListItem>
+                                                    <Button variant="contained" color="secondary" className="buttons" onClick={() => this.logout()}>Logout</Button>
+                                                </ListItem>
+                                            </div>
+                                        </Grid>
+                                    )
+                                }
+                                <p align="center" onClick={() => this.helpChild.current.handleOpen()}>About Wise-Viz</p>
+                            </fieldset>
+                        </Grid>
                     </Grid>
-                </Grid>
+                )}
+
+                {this.props.clickedUsername !== '' && (
+                    <Grid container justify="center">
+                        <Grid item sm={8}>
+                            <h1 className="userPostTitle">{this.props.clickedUsername} 's posts</h1>
+                            <Post updateClickedUsername={this.props.updateClickedUsername} clickedUsername={this.props.clickedUsername}/>
+                        </Grid>
+                    </Grid>
+                )}
             </div>
         );
     }
