@@ -3,14 +3,28 @@
     text-align: center;
 }
 
-.navTitle {
-    flex: 1;
-    max-height: 64px;
-    background-color: transparent;
-    padding-right: 48px;
-}
-
 .menuButton {
     margin-left: -12px;
     margin-right: 20px;
+}
+
+.layout{
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.titleAndHome{
+    margin-left: 2%;
+    display: inline-flex;
+}
+
+.title{
+    font-size: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+.account{
+    margin-left: 0%;
 }

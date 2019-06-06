@@ -34,7 +34,6 @@ export default class ChangePageView extends React.Component {
 
     handleClose = () => {
         let page = Number(this.state.pageNum);
-        console.log(this.props.totalPages);
         if (page < 1 || page > this.props.totalPages) {
             this.setState({ pageNum: '', error: true });
         } else {

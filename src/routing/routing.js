@@ -45,7 +45,8 @@ var RoutedApp = createReactClass({
 
     register() {
         return (
-            <Register/>
+            <Register
+            />
         );
     },
 
