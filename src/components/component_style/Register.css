@@ -12,6 +12,7 @@
 
 .registerText {
     width: 200px;
+    background: #8c9eff;
 }
 
 .eventForm {
@@ -27,4 +28,8 @@
 
 .error{
     color: red;
+}
+
+.title{
+    color: #ffffff;
 }

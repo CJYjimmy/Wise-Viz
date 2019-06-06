@@ -62,7 +62,10 @@ export default class NavBar extends React.Component {
                 <Drawer open={this.state.open} onClose={this.closeDrawer}>
                     <div tabIndex={0} role="button" onClick={this.closeDrawer}>
                         <div width="250">
-                            <ListItem button key='Home' onClick={() => this.ChangeView('/')} >
+                            <ListItem button key='Home' onClick={() => {
+                                this.ChangeView('/');
+                                this.props.updateClickedUsername('');
+                            }} >
                                 <ListItemIcon><HomeIcon /></ListItemIcon>
                                 <ListItemText primary='Home' />
                             </ListItem>

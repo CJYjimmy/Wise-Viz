@@ -59,20 +59,22 @@ export default class App extends Component {
 
     render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <div>
-                    <NavBar updateClickedUsername={this.updateClickedUsername.bind(this)}/>
-                    <RoutedApp
-                        loggedIn={this.loggedIn}
-                        onSuccess={this.onSuccess.bind(this)}
-                        logout={this.logout.bind(this)}
-                        user={this.state.user}
-                        history={true}
-                        clickedUsername={this.state.clickedUsername}
-                        updateClickedUsername={this.updateClickedUsername.bind(this)}
-                    />
-                </div>
-            </MuiThemeProvider>
+            <div className="background">
+                <MuiThemeProvider theme={theme}>
+                    <div>
+                        <NavBar updateClickedUsername={this.updateClickedUsername.bind(this)}/>
+                        <RoutedApp
+                            loggedIn={this.loggedIn}
+                            onSuccess={this.onSuccess.bind(this)}
+                            logout={this.logout.bind(this)}
+                            user={this.state.user}
+                            history={true}
+                            clickedUsername={this.state.clickedUsername}
+                            updateClickedUsername={this.updateClickedUsername.bind(this)}
+                        />
+                    </div>
+                </MuiThemeProvider>
+            </div>
         );
     }
 }
