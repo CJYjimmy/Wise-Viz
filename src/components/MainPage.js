@@ -62,7 +62,6 @@ export default class MainPage extends React.Component {
                     <Grid container justify="center" spacing={24}>
                         <HelpView ref={this.helpChild} />
                         <Grid item sm={7}>
-                            <br/>
                             {
                                 this.state.createPost === true && (
                                     <CreatePostView email={this.props.user.email} handleCreatePostClose={this.handleCreatePostClose}/>
@@ -83,11 +82,15 @@ export default class MainPage extends React.Component {
                                         <Grid container justify="center">
                                             <div className="buttons">
                                                 <ListItem>
-                                                    <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Log in</Button>
+                                                    <Button variant="contained" color="primary" className="buttons" onClick={() => {
+                                                        this.ChangeView('/login');
+                                                    }}>Log in</Button>
                                                 </ListItem>
 
                                                 <ListItem>
-                                                    <Button variant="contained" color="secondary" className="buttons" onClick={() => this.ChangeView('/register')}>Sign Up</Button>
+                                                    <Button variant="contained" color="secondary" className="buttons" onClick={ () => {
+                                                        this.ChangeView('/register');
+                                                    }}>Sign Up</Button>
                                                 </ListItem>
                                             </div>
                                         </Grid>

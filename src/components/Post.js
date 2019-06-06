@@ -118,6 +118,7 @@ export default class Post extends React.Component {
     render() {
         return (
             <form className="grid" method="post" action="">
+                <br/>
                 <ChangePageView ref={this.changePageChild} choosePage={this.updateCurrentPosts} totalPages={this.state.numOfPages} />
                 {this.state.currentShownPosts.map((post, index) => (
                     <article className="postArticle" key={index}>
@@ -128,13 +129,13 @@ export default class Post extends React.Component {
                                 </img>
                                 <div className="postContentLayout">
                                     <div className="postProfile">
-                                        <a className="userInfoPUsername" href="/" onClick={() => {
+                                        <Button className="userInfoPUsername" onClick={() => {
                                                 this.props.updateClickedUsername(post.username)
-                                            }}>{post.username}</a>
+                                            }}>{post.username}</Button>
                                         <p className="userInfoP">| {post.postTime}</p>
                                     </div>
                                     <hr className="hr" width="100%" color="#7986cb" size={3} />
-                                    <h2 className="h2ForPostTitle"><a className="postTitle" href="/" onClick={() => console.log('click')}>{post.title}</a></h2>
+                                    <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => console.log('click')}>{post.title}</Button></h2>
                                     <p className="postContent">{post.content}</p>
                                 </div>
                             </div>

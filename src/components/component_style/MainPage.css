@@ -1,9 +1,9 @@
-a.postTitle:hover {
+Button.postTitle:hover {
   color: #428bca;
   text-decoration: none;
 }
 
-a.userInfoPUsername:hover {
+Button.userInfoPUsername:hover {
   color: #428bca;
   text-decoration: none;
 }
@@ -18,10 +18,15 @@ a.userInfoPUsername:hover {
 }
 
 .currentPageButton{
-    width: 40px;
-    height: 40px;
-    margin: 5px !important;
+    width: 45px;
+    margin: 3px !important;
     background: #3949ab;
+    font-size: 100%;
+    font-style: italic;
+    word-wrap: break-word;
+    word-break: normal;
+    color: #ffffff;
+    outline: none;
 }
 
 .container{
@@ -66,7 +71,12 @@ form{
     margin: 0;
     padding: 0;
     color: #444444;
+    background: #ffffff;
+    border: none;
     text-decoration: none;
+    cursor: pointer;
+    font-style: oblique;
+    font-weight: bold;
 }
 
 .postContentLayout{
@@ -83,10 +93,14 @@ form{
 }
 
 .pageButton{
-    width: 40px;
-    height: 40px;
-    margin: 5px !important;
+    width: 35px;
+    margin: 2px !important;
     background: #7986cb;
+    font-size: 100%;
+    font-style: italic;
+    word-wrap: break-word;
+    word-break: normal;
+    outline: none;
 }
 
 .postProfile{
@@ -122,6 +136,10 @@ form{
     padding: 0;
     color: #3949ab;
     text-decoration: none;
+    border: none;
+    font-size: 15px;
+    background: #ffffff;
+    cursor: pointer;
 }
 
 .userPostTitle{
