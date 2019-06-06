@@ -117,32 +117,34 @@ export default class Post extends React.Component {
 
     render() {
         return (
-            <form className="grid" method="post" action="">
-                <br/>
-                <ChangePageView ref={this.changePageChild} choosePage={this.updateCurrentPosts} totalPages={this.state.numOfPages} />
-                {this.state.currentShownPosts.map((post, index) => (
-                    <article className="postArticle" key={index}>
-                        <fieldset className="postFieldset">
-                            <div className="userInfoDiv">
-                                <img className="roundedCircleArticleImg" alt="user"
-                                    src={img}>
-                                </img>
-                                <div className="postContentLayout">
-                                    <div className="postProfile">
-                                        <Button className="userInfoPUsername" onClick={() => {
-                                                this.props.updateClickedUsername(post.username)
-                                            }}>{post.username}</Button>
-                                        <p className="userInfoP">| {post.postTime}</p>
+            <div>
+                <form className="grid" method="post" action="">
+                    <br/>
+                    <ChangePageView ref={this.changePageChild} choosePage={this.updateCurrentPosts} totalPages={this.state.numOfPages} />
+                    {this.state.currentShownPosts.map((post, index) => (
+                        <article className="postArticle" key={index}>
+                            <fieldset className="postFieldset">
+                                <div className="userInfoDiv">
+                                    <img className="roundedCircleArticleImg" alt="user"
+                                        src={img}>
+                                    </img>
+                                    <div className="postContentLayout">
+                                        <div className="postProfile">
+                                            <Button className="userInfoPUsername" onClick={() => {
+                                                    this.props.updateClickedUsername(post.username)
+                                                }}>{post.username}</Button>
+                                            <p className="userInfoP">| {post.postTime}</p>
+                                        </div>
+                                        <hr className="hr" width="100%" color="#7986cb" size={3} />
+                                        <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => console.log('click')}>{post.title}</Button></h2>
+                                        <p className="postContent">{post.content}</p>
                                     </div>
-                                    <hr className="hr" width="100%" color="#7986cb" size={3} />
-                                    <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => console.log('click')}>{post.title}</Button></h2>
-                                    <p className="postContent">{post.content}</p>
                                 </div>
-                            </div>
-                        </fieldset>
-                        <br/>
-                    </article>
-                ))}
+                            </fieldset>
+                            <br/>
+                        </article>
+                    ))}
+                </form>
                 <div className="pageButtons">
                     {this.state.buttons.map((b, index) => {
                         if (b === this.state.currentPage) {
@@ -156,7 +158,7 @@ export default class Post extends React.Component {
                         }
                     })}
                 </div>
-            </form>
+            </div>
         );
     }
 

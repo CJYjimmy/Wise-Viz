@@ -3,7 +3,6 @@ import { IconButton, Typography, Button, TextField } from '@material-ui/core';
 import './component_style/Register.css';
 import { navigate } from 'react-mini-router';
 import InvalidNewUserView from './InvalidNewUserError';
-import {Helmet} from 'react-helmet';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -117,12 +116,10 @@ export default class Register extends React.Component {
     render() {
         return (
             <div className="newUser">
-                <Helmet>
-                    <style>{'body { background-color: #eeeeee; }'}</style>
-                </Helmet>
                 <InvalidNewUserView ref={this.invalidNewUserErrorChild} errInfo={this.state.userData.erroInfo}/>
                 <br />
-                <Typography variant="h4" align="center" gutterBottom>Sign in</Typography>
+                <h2 className="title" align="center">Sign In</h2>
+                <br />
                 <form className="eventForm" onSubmit={this.login}>
                     <TextField
                         required

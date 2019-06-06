@@ -3,7 +3,6 @@ import { Typography, Button, ListItem, Grid } from '@material-ui/core';
 import {  } from 'react-bootstrap'
 import './component_style/MainPage.css';
 import { navigate } from 'react-mini-router';
-import {Helmet} from 'react-helmet';
 import CreatePostView from './CreatePost';
 import Post from './Post';
 import HelpView from './Help';
@@ -53,9 +52,6 @@ export default class MainPage extends React.Component {
     render() {
         return (
             <div className="content">
-                <Helmet>
-                    <style>{'body { background-color: #eeeeee; }'}</style>
-                </Helmet>
                 <br />
 
                 { this.props.clickedUsername === '' && (

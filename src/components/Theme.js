@@ -18,6 +18,11 @@ export default createMuiTheme({
         },
         h5: {
             fontSize: 25,
+        },
+        newH4: {
+            fontWeight: 500,
+            fontSize: 30,
+            color: '#ffffff',
         }
     },
 });
