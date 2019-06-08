@@ -72,10 +72,10 @@ export default class MainPage extends React.Component {
                         <Grid item sm={3}>
                             <br/>
                             <fieldset className="fieldset">
-                                <Typography variant="h5" align="center" gutterBottom>Welcome to Wise-Vizs!</Typography>
                                 {
                                     this.props.user == null && (
                                         <Grid container justify="center">
+                                            <Typography variant="h5" align="center" gutterBottom>Welcome to Wise-Vizs!</Typography>
                                             <div className="buttons">
                                                 <ListItem>
                                                     <Button variant="contained" color="primary" className="buttons" onClick={() => {
@@ -95,6 +95,7 @@ export default class MainPage extends React.Component {
                                 {
                                     this.props.user != null && (
                                         <Grid container justify="center">
+                                            <Typography variant="h5" align="center" gutterBottom>You're here, {this.props.user.username}!</Typography>
                                             <div>
                                                 <ListItem>
                                                     <Button variant="contained" color="primary" className="buttons" onClick={() => this.ChangeView('/login')}>Create Community</Button>
