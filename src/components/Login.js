@@ -42,8 +42,8 @@ export default class Register extends React.Component {
         });
     }
 
-    onSuccess(email) {
-        this.props.onSuccess(email);
+    onSuccess(email, username) {
+        this.props.onSuccess(email, username);
         this.ChangeView('/');
     }
 
@@ -72,7 +72,7 @@ export default class Register extends React.Component {
                     password: this.state.userData.password
                 };
                 if (this.existEmailAndPasswordCorrect(data.email, data.password)) {
-                    this.onSuccess(data.email);
+                    this.onSuccess(data.email, this.state.items[0].userName);
                 } else {
                     let erroInfo = '';
                     if (data.userName === '') {
@@ -118,7 +118,7 @@ export default class Register extends React.Component {
             <div className="newUser">
                 <InvalidNewUserView ref={this.invalidNewUserErrorChild} errInfo={this.state.userData.erroInfo}/>
                 <br />
-                <h2 className="title" align="center">Sign In</h2>
+                <h2 className="title" align="center">Log In</h2>
                 <br />
                 <form className="eventForm" onSubmit={this.login}>
                     <TextField

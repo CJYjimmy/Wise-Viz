@@ -24,7 +24,8 @@ export default class App extends Component {
 
     componentDidMount() {
         const user = sessionStorage.getItem('email') ? {
-            email: sessionStorage.getItem('email')
+            email: sessionStorage.getItem('email'),
+            username: sessionStorage.getItem('username')
         } : null;
         this.setState({
             loggedIn: user ? true : false,
@@ -39,14 +40,16 @@ export default class App extends Component {
         sessionStorage.setItem('clickedUsername', username);
     }
 
-    onSuccess(userEmail) {
+    onSuccess(userEmail, username) {
         this.setState({
             loggedIn: true,
             user: {
-                email: userEmail
+                email: userEmail,
+                username: username,
             }
         });
         sessionStorage.setItem('email', userEmail);
+        sessionStorage.setItem('username', username);
     }
 
     logout() {
@@ -55,6 +58,7 @@ export default class App extends Component {
             user: null
         });
         sessionStorage.removeItem('email');
+        sessionStorage.removeItem('username');
     }
 
     render() {
