@@ -19,13 +19,15 @@ export default class App extends Component {
             loggedIn: false,
             user: '',
             clickedUsername: '',
+            clickedPost: [],
         };
     }
 
     componentDidMount() {
         const user = sessionStorage.getItem('email') ? {
             email: sessionStorage.getItem('email'),
-            username: sessionStorage.getItem('username')
+            username: sessionStorage.getItem('username'),
+            password: sessionStorage.getItem('password')
         } : null;
         this.setState({
             loggedIn: user ? true : false,
@@ -40,16 +42,25 @@ export default class App extends Component {
         sessionStorage.setItem('clickedUsername', username);
     }
 
-    onSuccess(userEmail, username) {
+    updateClickedPost(post) {
+        this.setState({
+            clickedPost: post,
+        });
+        sessionStorage.setItem('clickedPost', post);
+    }
+
+    onSuccess(userEmail, username, password) {
         this.setState({
             loggedIn: true,
             user: {
                 email: userEmail,
                 username: username,
+                password: password,
             }
         });
         sessionStorage.setItem('email', userEmail);
         sessionStorage.setItem('username', username);
+        sessionStorage.setItem('password', password);
     }
 
     logout() {
@@ -59,6 +70,7 @@ export default class App extends Component {
         });
         sessionStorage.removeItem('email');
         sessionStorage.removeItem('username');
+        sessionStorage.removeItem('password');
     }
 
     render() {
@@ -75,6 +87,8 @@ export default class App extends Component {
                             history={true}
                             clickedUsername={this.state.clickedUsername}
                             updateClickedUsername={this.updateClickedUsername.bind(this)}
+                            clickedPost={this.state.clickedPost}
+                            updateClickedPost={this.updateClickedPost.bind(this)}
                         />
                     </div>
                 </MuiThemeProvider>

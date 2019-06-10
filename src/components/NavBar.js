@@ -69,9 +69,11 @@ export default class NavBar extends React.Component {
                                 <ListItemIcon><HomeIcon /></ListItemIcon>
                                 <ListItemText primary='Home' />
                             </ListItem>
-                            <ListItem button key='Vote' >
-                                <ListItemIcon><VoteIcon /></ListItemIcon>
-                                <ListItemText primary='Vote' />
+                            <ListItem button key='Account' onClick={() => {
+                                this.ChangeView('/user');
+                            }} >
+                                <ListItemIcon><OrganizerIcon /></ListItemIcon>
+                                <ListItemText primary='Account' />
                             </ListItem>
                             <Divider />
                             <ListItem button key='Help' onClick={() => this.helpChild.current.handleOpen()}>

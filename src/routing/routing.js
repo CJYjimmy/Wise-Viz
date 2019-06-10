@@ -4,6 +4,7 @@ import MainPage from '../components/MainPage';
 import Register from '../components/Register';
 import Login from '../components/Login';
 import User from '../components/User';
+import PostContent from '../components/PostContent';
 
 var RouterMixin = require('react-mini-router').RouterMixin;
 
@@ -24,6 +25,7 @@ var RoutedApp = createReactClass({
         '/register': 'register',
         '/login': 'login',
         '/user': 'user',
+        '/postContent': 'postContent',
     },
 
     render() {
@@ -39,6 +41,8 @@ var RoutedApp = createReactClass({
                 user={this.props.user}
                 updateClickedUsername={this.props.updateClickedUsername}
                 clickedUsername={this.props.clickedUsername}
+                clickedPost={this.props.clickedPost}
+                updateClickedPost={this.props.updateClickedPost}
             />
         );
     },
@@ -65,8 +69,18 @@ var RoutedApp = createReactClass({
             <User
                 logout={this.props.logout}
                 user={this.props.user}
+                onSuccess={this.props.onSuccess}
             />
         );
+    },
+
+    postContent() {
+        return (
+            <PostContent
+                clickedPost={this.props.clickedPost}
+                updateClickedPost={this.props.updateClickedPost}
+            />
+        )
     },
 
     notFound(path) {
