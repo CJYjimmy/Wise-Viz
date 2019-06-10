@@ -42,8 +42,8 @@ export default class Register extends React.Component {
         });
     }
 
-    onSuccess(email, username) {
-        this.props.onSuccess(email, username);
+    onSuccess(email, username, password) {
+        this.props.onSuccess(email, username, password);
         this.ChangeView('/');
     }
 
@@ -72,7 +72,7 @@ export default class Register extends React.Component {
                     password: this.state.userData.password
                 };
                 if (this.existEmailAndPasswordCorrect(data.email, data.password)) {
-                    this.onSuccess(data.email, this.state.items[0].userName);
+                    this.onSuccess(data.email, this.state.items[0].userName, this.state.items[0].password);
                 } else {
                     let erroInfo = '';
                     if (data.userName === '') {

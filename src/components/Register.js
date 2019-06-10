@@ -89,7 +89,6 @@ export default class Register extends React.Component {
                     fetch(request)
                         .then(function(response) {
                             response.json().then(function(data) {
-                                console.log(data)
                             })
                     });
                     this.registerSucceedChild.current.handleOpen();

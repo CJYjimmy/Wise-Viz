@@ -136,7 +136,10 @@ export default class Post extends React.Component {
                                             <p className="userInfoP">| {post.postTime}</p>
                                         </div>
                                         <hr className="hr" width="100%" color="#7986cb" size={3} />
-                                        <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => console.log('click')}>{post.title}</Button></h2>
+                                        <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => {
+                                            this.props.updateClickedPost(post);
+                                            this.ChangeView('/postContent');
+                                        }}>{post.title}</Button></h2>
                                         <p className="postContent">{post.content}</p>
                                     </div>
                                 </div>

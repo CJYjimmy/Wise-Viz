@@ -107,17 +107,26 @@ const postTableData = (request, response, pool) => {
 const putTableData = (request, response, pool) => {
     let userName = request.body.userName;
     let password = request.body.password;
-    let values = [userName, password];
+    let email = request.body.email;
+    let values = [userName, password, email];
     pool.connect((err, db, done) => {
         if (err) {
             return console.log(err);
         } else {
-            db.query('UPDATE "userInfo" SET "password"=$2 WHERE "userName"=$1', values, (err, table) => {
+            db.query('UPDATE "userInfo" SET "password"=$2, "userName"=$1 WHERE "email"=$3', values, (err, table) => {
                 done();
                 if (err) {
                     return console.log(err);
                 } else {
                     console.log('PUT SUCCEFUL');
+                }
+            })
+            db.query('UPDATE "postInfo" SET "username"=$1 WHERE "userEmail"=$2', [userName, email], (err, table) => {
+                done();
+                if (err) {
+                    return console.log(err);
+                } else {
+                    console.log('PUT SUCCEFUL 2');
                 }
             })
         }
