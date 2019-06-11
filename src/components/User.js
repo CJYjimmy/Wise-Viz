@@ -81,27 +81,28 @@ export default class User extends React.Component {
             fetch(request)
                 .then(response => response.json())
                 .then(item => this.setState({item}))
-                .then((event) => {
+                .then(() => {
                     let data = {
                         email: this.props.user.email,
                         userName: this.state.userData.username === '' ? this.props.user.username : this.state.userData.username,
                         password: this.state.userData.newPassword === '' ? this.props.user.password : this.state.userData.newPassword,
                     };
                     if (!this.existUsername(data.userName)) {
-                        let request = new Request('http://localhost:3000/api/user-info/put', {
-                            method: 'POST',
+                        let request = new Request('http://localhost:3000/api/user-info/update-user-info', {
+                            method: 'PUT',
                             headers: new Headers({ 'Content-Type': 'application/json' }),
                             body: JSON.stringify(data)
                         });
 
-                        fetch(request);
+                        fetch(request)
+                        .then(response => response.json());
                         this.props.onSuccess(data.email, data.userName, data.password);
                         this.ChangeView('/');
                     } else {
                         this.setState({ usernameUnique:false });
                     }
                 })
-                .catch(err => console.log(err))
+                .catch(err => console.log(err));
         }
     }
 

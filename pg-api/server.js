@@ -12,7 +12,7 @@ let pool = new pg.Pool({
     password: '11221',
     host: '127.0.0.1',
     port: 5432,
-    max: 10
+    max: 20
 });
 
 let app = express();
@@ -25,6 +25,7 @@ app.use(morgan('dev'));
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("access-control-allow-methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS")
   next();
 });
 
@@ -33,7 +34,7 @@ app.post('/api/user-info/get-username', (request, response) => main.getUsername(
 app.post('/api/user-info/check-username-email-unique', (request, response) => main.checkUsernameAndEmailUnique(request, response, pool));
 app.post('/api/user-info/check-email', (request, response) => main.checkEmail(request, response, pool));
 app.post('/api/user-info/post', (request, response) => main.postTableData(request, response, pool));
-app.post('/api/user-info/put', (request, response) => main.putTableData(request, response, pool));
+app.put('/api/user-info/update-user-info', (request, response) => main.putTableData(request, response, pool));
 app.delete('/api/user-info/delete', (request, response) => main.deleteTableData(request, response, pool));
 
 app.get('/api/post-info/get', (request, response) => postInfo.getTableData(request, response, pool));
