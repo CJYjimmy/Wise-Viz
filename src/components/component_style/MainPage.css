@@ -1,11 +1,11 @@
 Button.postTitle:hover {
-  color: #428bca;
-  text-decoration: none;
+    color: #428bca;
+    text-decoration: none;
 }
 
 Button.userInfoPUsername:hover {
-  color: #428bca;
-  text-decoration: none;
+    color: #428bca;
+    text-decoration: none;
 }
 
 .buttons {
@@ -45,11 +45,17 @@ form{
 .grid{
     height: 500px;
     overflow: scroll;
+    border: #ffffff solid;
 }
 
 .h2ForPostTitle{
     margin: 0;
     padding: 0;
+}
+
+.help{
+    cursor: pointer;
+    color: blue;
 }
 
 .postTitleText{

@@ -22,12 +22,22 @@
 .pageNumTextField{
 }
 
+p.forgetPassword:hover {
+    color: yellow;
+    text-decoration: none;
+}
+
 .changePageD{
     display: inline-grid;
 }
 
 .error{
     color: red;
+}
+
+.forgetPassword{
+    cursor: pointer;
+    color: #ffffff;
 }
 
 .title{
