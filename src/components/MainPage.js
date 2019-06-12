@@ -114,7 +114,7 @@ export default class MainPage extends React.Component {
                                         </Grid>
                                     )
                                 }
-                                <p align="center" onClick={() => this.helpChild.current.handleOpen()}>About Wise-Viz</p>
+                                <p className="help" align="center" onClick={() => this.helpChild.current.handleOpen()}>About Wise-Viz</p>
                             </fieldset>
                         </Grid>
                     </Grid>

@@ -172,6 +172,8 @@ export default class Register extends React.Component {
                     >
                         Login
                     </Button>
+                    <br />
+                    <p className="forgetPassword">Forget password?</p>
                 </form>
             </div>
         );

@@ -1,8 +1,11 @@
 import React from 'react';
-import { Typography, Button, TextField } from '@material-ui/core';
+import { Typography, Button, TextField, IconButton } from '@material-ui/core';
 import './component_style/Register.css';
 import { navigate } from 'react-mini-router';
 import img from './resources/profile_pictures/default_profile_picture.png';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 /**
  *
@@ -23,6 +26,7 @@ export default class User extends React.Component {
                 confirmPassword: '',
             },
             item: [],
+            showPassword: false,
             usernameUnique: true,
             passwordError: false,
             newPasswordError: false,
@@ -54,6 +58,10 @@ export default class User extends React.Component {
                 ? false : this.state.newPasswordError),
         });
     }
+
+    handleClickShowPassword = () => {
+        this.setState({ showPassword: !this.state.showPassword });
+    };
 
     updateUserInfo() {
         if (this.state.userData.oldPassword !== this.props.user.password && this.state.userData.oldPassword !== '') {
@@ -95,9 +103,11 @@ export default class User extends React.Component {
                         });
 
                         fetch(request)
-                        .then(response => response.json());
-                        this.props.onSuccess(data.email, data.userName, data.password);
-                        this.ChangeView('/');
+                        .then(response => response.json())
+                        .then(() => {
+                            this.props.onSuccess(data.email, data.userName, data.password);
+                            this.ChangeView('/');
+                        });
                     } else {
                         this.setState({ usernameUnique:false });
                     }
@@ -149,6 +159,20 @@ export default class User extends React.Component {
                             value={this.state.userData.oldPassword}
                             className="postTitleText"
                             onChange={this.handleEventChange('oldPassword')}
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            edge="end"
+                                            aria-label="Toggle password visibility"
+                                            onClick={this.handleClickShowPassword}
+                                        >
+                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                              ),
+                            }}
                         />
                         <br />
                         <TextField
@@ -157,6 +181,20 @@ export default class User extends React.Component {
                             value={this.state.userData.Password}
                             className="postTitleText"
                             onChange={this.handleEventChange('newPassword')}
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            edge="end"
+                                            aria-label="Toggle password visibility"
+                                            onClick={this.handleClickShowPassword}
+                                        >
+                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                              ),
+                            }}
                         />
                         <br />
                         <TextField
@@ -165,6 +203,20 @@ export default class User extends React.Component {
                             value={this.state.userData.confirmPassword}
                             className="postTitleText"
                             onChange={this.handleEventChange('confirmPassword')}
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            edge="end"
+                                            aria-label="Toggle password visibility"
+                                            onClick={this.handleClickShowPassword}
+                                        >
+                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                              ),
+                            }}
                         />
                         <br />
                         <br/><br/>
