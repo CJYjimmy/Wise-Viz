@@ -6,6 +6,7 @@ import InvalidNewUserView from './InvalidNewUserError';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import GetPasswordDialogView from './GetPasswordDialog';
 
 /**
  *
@@ -32,6 +33,7 @@ export default class Register extends React.Component {
         this.invalidNewUserErrorChild = React.createRef();
         this.checkUserInfoAndLogin = this.checkUserInfoAndLogin.bind(this);
         this.onSuccess = this.onSuccess.bind(this);
+        this.GetPasswordChild = React.createRef();
     }
 
     handleEventChange = field => event => {
@@ -117,6 +119,7 @@ export default class Register extends React.Component {
         return (
             <div className="newUser">
                 <InvalidNewUserView ref={this.invalidNewUserErrorChild} errInfo={this.state.userData.erroInfo}/>
+                <GetPasswordDialogView ref={this.GetPasswordChild}/>
                 <br />
                 <h2 className="title" align="center">Log In</h2>
                 <br />
@@ -173,7 +176,7 @@ export default class Register extends React.Component {
                         Login
                     </Button>
                     <br />
-                    <p className="forgetPassword">Forget password?</p>
+                    <p className="forgetPassword" onClick={() => this.GetPasswordChild.current.handleOpen()}>Forget password?</p>
                 </form>
             </div>
         );
