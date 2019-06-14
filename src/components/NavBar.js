@@ -53,7 +53,11 @@ export default class NavBar extends React.Component {
                             </div>
                             <div className="account">
                                 <Button color="inherit" className="account" onClick={() => {
-                                    this.ChangeView('/user');
+                                    if (this.props.user == null) {
+                                        this.ChangeView('/login');
+                                    } else {
+                                        this.ChangeView('/user');
+                                    }
                                 }}>Account</Button>
                             </div>
                         </div>
@@ -70,7 +74,11 @@ export default class NavBar extends React.Component {
                                 <ListItemText primary='Home' />
                             </ListItem>
                             <ListItem button key='Account' onClick={() => {
-                                this.ChangeView('/user');
+                                if (this.props.user == null) {
+                                    this.ChangeView('/login');
+                                } else {
+                                    this.ChangeView('/user');
+                                }
                             }} >
                                 <ListItemIcon><OrganizerIcon /></ListItemIcon>
                                 <ListItemText primary='Account' />

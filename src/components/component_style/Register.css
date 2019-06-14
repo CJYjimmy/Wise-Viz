@@ -40,6 +40,12 @@ p.forgetPassword:hover {
     color: #ffffff;
 }
 
+.sendEmail{
+    width: 90%;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
 .title{
     color: #ffffff;
 }

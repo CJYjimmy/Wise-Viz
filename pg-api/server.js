@@ -6,6 +6,27 @@ let morgan = require('morgan');
 let pg = require('pg');
 const PORT = 3000;
 
+var nodemailer = require('nodemailer');
+const creds = require('./emailInfo');
+
+var transport = {
+  host: 'smtp.qq.com',
+  auth: {
+    user: creds.USER,
+    pass: creds.PASS
+  }
+}
+
+var transporter = nodemailer.createTransport(transport)
+
+transporter.verify((error, success) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Server is ready to take messages');
+  }
+});
+
 let pool = new pg.Pool({
     user: '',
     database: 'wise-vizDB',
@@ -43,5 +64,32 @@ app.post('/api/post-info/check-email', (request, response) => postInfo.checkEmai
 app.post('/api/post-info/post', (request, response) => postInfo.postTableData(request, response, pool));
 app.put('/api/post-info/put', (request, response) => postInfo.putTableData(request, response, pool));
 app.delete('/api/post-info/delete', (request, response) => postInfo.deleteTableData(request, response, pool));
+
+app.post('/send', (request, response, next) => {
+  var email = request.body.email;
+  var content = request.body.message;
+
+  console.log(creds.USER);
+  console.log(email);
+
+  var mail = {
+    from: creds.USER,
+    to: email,
+    subject: 'Get back password',
+    text: content
+  }
+
+  transporter.sendMail(mail, (err, data) => {
+    if (err) {
+      response.json({
+        msg: 'fail'
+      })
+    } else {
+      response.json({
+        msg: 'success'
+      })
+    }
+  })
+})
 
 app.listen(3000);

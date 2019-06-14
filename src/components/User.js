@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button, TextField, IconButton } from '@material-ui/core';
+import { Button, TextField, IconButton } from '@material-ui/core';
 import './component_style/Register.css';
 import { navigate } from 'react-mini-router';
 import img from './resources/profile_pictures/default_profile_picture.png';
@@ -44,8 +44,6 @@ export default class User extends React.Component {
     handleEventChange = field => event => {
         const oldData = this.state.userData;
         oldData[field] = event.target.value;
-        let passwordError = this.state.passwordError;
-        let oldPassword = oldData.oldPassword;
         this.setState({
             userData: oldData,
             error: false,
