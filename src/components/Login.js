@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconButton, Typography, Button, TextField } from '@material-ui/core';
+import { IconButton, Button, TextField } from '@material-ui/core';
 import './component_style/Register.css';
 import { navigate } from 'react-mini-router';
 import InvalidNewUserView from './InvalidNewUserError';

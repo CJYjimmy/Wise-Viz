@@ -78,7 +78,7 @@ export default class App extends Component {
             <div className="background">
                 <MuiThemeProvider theme={theme}>
                     <div>
-                        <NavBar updateClickedUsername={this.updateClickedUsername.bind(this)}/>
+                        <NavBar updateClickedUsername={this.updateClickedUsername.bind(this)} user={this.state.user}/>
                         <RoutedApp
                             loggedIn={this.loggedIn}
                             onSuccess={this.onSuccess.bind(this)}
