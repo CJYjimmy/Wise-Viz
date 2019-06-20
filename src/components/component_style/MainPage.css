@@ -58,6 +58,11 @@ form{
     color: blue;
 }
 
+legend{
+    background-color: blue;
+    color: #ffffff;
+}
+
 .postTitleText{
     width: 100%;
 }

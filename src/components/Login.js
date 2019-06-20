@@ -177,6 +177,7 @@ export default class Register extends React.Component {
                     </Button>
                     <br />
                     <p className="forgetPassword" onClick={() => this.GetPasswordChild.current.handleOpen()}>Forget password?</p>
+                    <p className="forgetPassword" onClick={() => this.ChangeView('/register')}>Sign Up</p>
                 </form>
             </div>
         );
