@@ -1,10 +1,15 @@
 const main = require('./main');
 const postInfo = require('./postInfo');
+const profilePicture =  require('./profilePicture');
 let express = require('express');
 let bodyParser = require('body-parser');
 let morgan = require('morgan');
 let pg = require('pg');
+let cloudinary = require("cloudinary");
 const PORT = 3000;
+
+const path = require("path");
+const multer = require("multer");
 
 var nodemailer = require('nodemailer');
 const creds = require('./emailInfo');
@@ -25,6 +30,12 @@ transporter.verify((error, success) => {
   } else {
     console.log('Server is ready to take messages');
   }
+});
+
+cloudinary.config({
+    cloud_name: "cjyjimmy520",
+    api_key: "327192484168919",
+    api_secret: "jc2NclfLIwPzlAZiHEGYIzicFk0"
 });
 
 let pool = new pg.Pool({
@@ -65,12 +76,11 @@ app.post('/api/post-info/post', (request, response) => postInfo.postTableData(re
 app.put('/api/post-info/put', (request, response) => postInfo.putTableData(request, response, pool));
 app.delete('/api/post-info/delete', (request, response) => postInfo.deleteTableData(request, response, pool));
 
+// app.post('/api/picture-info/update',(request, response) => profilePicture.updatePicture(request, response, cloudinary));
+
 app.post('/send', (request, response, next) => {
   var email = request.body.email;
   var content = request.body.message;
-
-  console.log(creds.USER);
-  console.log(email);
 
   var mail = {
     from: creds.USER,
@@ -91,5 +101,26 @@ app.post('/send', (request, response, next) => {
     }
   })
 })
+
+const storage = multer.diskStorage({
+    destination: "./files",
+    filename: function(req, file, cb){
+      cb(null,"IMAGE-" + Date.now() + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage }).single("file");
+app.post("/api/picture-info/update", upload, (request, response) => {
+    let file = request.file.path;
+    let publicID = request.body.pictureID;
+    cloudinary.v2.uploader.upload(file,
+        {
+            public_id: publicID,
+            folder: "/profile_picture/" + publicID,
+            transformation: [{"width": 360, "height": 360, "crop": "fit"}]
+        },
+        function(error, result) {console.log(result, error); });
+    response.send({one:file});
+});
 
 app.listen(3000);

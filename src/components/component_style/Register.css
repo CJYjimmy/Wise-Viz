@@ -27,6 +27,11 @@ p.forgetPassword:hover {
     text-decoration: none;
 }
 
+.picture{
+    font-size: 20px;
+    text-align: center;
+}
+
 .changePageD{
     display: inline-grid;
 }
@@ -38,6 +43,7 @@ p.forgetPassword:hover {
 .forgetPassword{
     cursor: pointer;
     color: #ffffff;
+    font-weight: bold;
 }
 
 .sendEmail{

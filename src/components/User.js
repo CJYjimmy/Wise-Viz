@@ -6,6 +6,8 @@ import img from './resources/profile_pictures/default_profile_picture.png';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Image, Transformation, CloudinaryContext } from 'cloudinary-react';
+import axios from 'axios';
 
 /**
  *
@@ -33,6 +35,7 @@ export default class User extends React.Component {
             confirmPasswordError: false,
             oldPasswordRequire: false,
             errorInfo: 'The username is registered by the other person!',
+            picture: '',
         };
         this.updateUserInfo = this.updateUserInfo.bind(this);
         this.existUsername = this.existUsername.bind(this);
@@ -57,9 +60,42 @@ export default class User extends React.Component {
         });
     }
 
+    handleEventChangeForPicture = () => event => {
+        this.setState({ picture: event.target.files[0] });
+    }
+
     handleClickShowPassword = () => {
         this.setState({ showPassword: !this.state.showPassword });
     };
+
+    uploadPicture = async () => {
+        let formData = new FormData();
+        formData.append('file', this.state.picture);
+        formData.append('pictureID', this.props.user.email);
+        // let data = {
+        //     file: this.state.picture,
+        //     publicID: this.props.user.email,
+        // };
+        console.log(formData.get('pictureID'));
+        // let request = new Request('http://localhost:3000/api/picture-info/update', {
+        //     method: 'POST',
+        //     headers: new Headers({ 'content-type': 'multipart/form-data' }),
+        //     body: formData
+        // });
+        // fetch(request)
+        //     .then(response => response.json())
+
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        axios.post("http://localhost:3000/api/picture-info/update",formData)
+            .then((response) => {
+                alert("The file is successfully uploaded");
+            }).catch((error) => {
+        });
+    }
 
     updateUserInfo() {
         if (this.state.userData.oldPassword !== this.props.user.password && this.state.userData.oldPassword !== '') {
@@ -76,6 +112,7 @@ export default class User extends React.Component {
         }
         else if (!this.state.passwordError && !this.state.oldPasswordRequire
             && !this.state.newPasswordError && !this.state.confirmPasswordError) {
+
             let data = {
                 userName: this.state.userData.username,
             };
@@ -92,8 +129,10 @@ export default class User extends React.Component {
                         email: this.props.user.email,
                         userName: this.state.userData.username === '' ? this.props.user.username : this.state.userData.username,
                         password: this.state.userData.newPassword === '' ? this.props.user.password : this.state.userData.newPassword,
+                        pictureID: this.state.userData.pictureID,
                     };
                     if (!this.existUsername(data.userName)) {
+                        this.uploadPicture();
                         let request = new Request('http://localhost:3000/api/user-info/update-user-info', {
                             method: 'PUT',
                             headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -216,7 +255,9 @@ export default class User extends React.Component {
                               ),
                             }}
                         />
-                        <br />
+                        <br /><br />
+                        <h2>Update profile picture :</h2>
+                        <input type="file" onChange={this.handleEventChangeForPicture()} accept="image/png, image/jpeg, image/gif, image/jpg"/>
                         <br/><br/>
                         <Button variant="contained" color="secondary" className="postButtons" type="button" onClick={() => this.ChangeView('/')}>Cancel</Button>
                         <Button variant="contained" color="primary" className="postButtons" onClick={() => this.updateUserInfo()}>Update</Button>
