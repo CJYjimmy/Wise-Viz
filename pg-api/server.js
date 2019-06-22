@@ -1,6 +1,6 @@
 const main = require('./main');
 const postInfo = require('./postInfo');
-const profilePicture =  require('./profilePicture');
+const profilePicture = require('./profilePicture');
 let express = require('express');
 let bodyParser = require('body-parser');
 let morgan = require('morgan');
@@ -8,6 +8,7 @@ let pg = require('pg');
 let cloudinary = require("cloudinary");
 const PORT = 3000;
 
+const rimraf = require('rimraf');
 const path = require("path");
 const multer = require("multer");
 
@@ -76,7 +77,6 @@ app.post('/api/post-info/post', (request, response) => postInfo.postTableData(re
 app.put('/api/post-info/put', (request, response) => postInfo.putTableData(request, response, pool));
 app.delete('/api/post-info/delete', (request, response) => postInfo.deleteTableData(request, response, pool));
 
-// app.post('/api/picture-info/update',(request, response) => profilePicture.updatePicture(request, response, cloudinary));
 
 app.post('/send', (request, response, next) => {
   var email = request.body.email;
@@ -113,6 +113,7 @@ const upload = multer({ storage }).single("file");
 app.post("/api/picture-info/update", upload, (request, response) => {
     let file = request.file.path;
     let publicID = request.body.pictureID;
+    cloudinary.v2.uploader.destroy('"/profile_picture/" + publicID');
     cloudinary.v2.uploader.upload(file,
         {
             public_id: publicID,
@@ -121,6 +122,8 @@ app.post("/api/picture-info/update", upload, (request, response) => {
         },
         function(error, result) {console.log(result, error); });
     response.send({one:file});
+    rimraf('./files/*', function () { console.log('done'); });
 });
+
 
 app.listen(3000);

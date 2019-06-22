@@ -6,7 +6,6 @@ import img from './resources/profile_pictures/default_profile_picture.png';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Image, Transformation, CloudinaryContext } from 'cloudinary-react';
 import axios from 'axios';
 
 /**
@@ -69,32 +68,23 @@ export default class User extends React.Component {
     };
 
     uploadPicture = async () => {
-        let formData = new FormData();
-        formData.append('file', this.state.picture);
-        formData.append('pictureID', this.props.user.email);
-        // let data = {
-        //     file: this.state.picture,
-        //     publicID: this.props.user.email,
-        // };
-        console.log(formData.get('pictureID'));
-        // let request = new Request('http://localhost:3000/api/picture-info/update', {
-        //     method: 'POST',
-        //     headers: new Headers({ 'content-type': 'multipart/form-data' }),
-        //     body: formData
-        // });
-        // fetch(request)
-        //     .then(response => response.json())
+        if (this.state.picture !== '') {
+            let formData = new FormData();
+            formData.append('file', this.state.picture);
+            formData.append('pictureID', this.props.user.email);
+            console.log(formData.get('pictureID'));
 
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        };
-        axios.post("http://localhost:3000/api/picture-info/update",formData)
-            .then((response) => {
-                alert("The file is successfully uploaded");
-            }).catch((error) => {
-        });
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            };
+            axios.post("http://localhost:3000/api/picture-info/update",formData)
+                .then((response) => {
+                    alert("The file is successfully uploaded");
+                }).catch((error) => {
+            });
+        }
     }
 
     updateUserInfo() {
@@ -170,9 +160,13 @@ export default class User extends React.Component {
                 <fieldset className="fieldset">
                     <form>
                         <div className="postContentLayout">
-                            <img className="roundedCircleArticleImg" alt="user"
-                                src={img}>
-                            </img>
+                            {
+
+                            }
+                            <img className="roundedCircleArticleImg"
+                                src={"http://res.cloudinary.com/cjyjimmy520/image/upload/f_auto,q_auto,fl_lossy/profile_picture/"
+                                    + this.props.user.email + '/' + this.props.user.email}
+                                alt="user" onerror="this.src='img'" />
                             <div className="postProfile">
                                 <h2>{this.props.user.email}</h2>
                             </div>
