@@ -15,6 +15,12 @@
     background: #8c9eff;
 }
 
+.roundedCircleArticleImg {
+    border-radius: 50%;
+    height: 10%;
+    width: 10%;
+}
+
 .eventForm {
     text-align: center;
 }

@@ -72,7 +72,6 @@ export default class User extends React.Component {
             let formData = new FormData();
             formData.append('file', this.state.picture);
             formData.append('pictureID', this.props.user.email);
-            console.log(formData.get('pictureID'));
 
             const config = {
                 headers: {
@@ -164,9 +163,10 @@ export default class User extends React.Component {
 
                             }
                             <img className="roundedCircleArticleImg"
-                                src={"http://res.cloudinary.com/cjyjimmy520/image/upload/f_auto,q_auto,fl_lossy/profile_picture/"
+                                src={"http://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/profile_picture/"
                                     + this.props.user.email + '/' + this.props.user.email}
-                                alt="user" onerror="this.src='img'" />
+                                alt="user" onError={(e)=>{e.target.onerror = null; e.target.src=img}}>
+                            </img>
                             <div className="postProfile">
                                 <h2>{this.props.user.email}</h2>
                             </div>
