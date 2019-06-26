@@ -1,6 +1,5 @@
 const main = require('./main');
 const postInfo = require('./postInfo');
-const profilePicture = require('./profilePicture');
 let express = require('express');
 let bodyParser = require('body-parser');
 let morgan = require('morgan');
