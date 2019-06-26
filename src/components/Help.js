@@ -29,9 +29,13 @@ export default class HelpView extends React.Component {
                         Help/About
                     </DialogTitle>
                     <DialogContent>
-                        <b>Help:</b>
-                        <br />
-                        <b>About:</b>
+                        <b>Help: </b>
+                        <br /> <br />
+                        <b>Each user needs to log in before posting his idea. New users need to sign up first and then go to log in.</b>
+                        <br /> <br />
+                        <b>About: </b>
+                        <br /> <br />
+                        <b>Wise-Vizs uses forums, as a place for users to socially interact.</b>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">Ok</Button>
