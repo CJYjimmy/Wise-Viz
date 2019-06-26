@@ -7,10 +7,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import OrganizerIcon from '@material-ui/icons/AssignmentInd';
 import VoteIcon from '@material-ui/icons/HowToVote';
-import { Drawer, ListItemIcon, ListItemText, ListItem, Divider } from '@material-ui/core';
+import { navigate } from 'react-mini-router';
+import { Drawer, ListItemIcon, Button, ListItemText, ListItem, Divider } from '@material-ui/core';
+import img from './resources/profile_pictures/default_profile_picture.png';
 
 import './component_style/NavBar.css';
-import logoSvg from '../logo.svg';
 import HelpView from './Help';
 
 /**
@@ -27,6 +28,10 @@ export default class NavBar extends React.Component {
         this.helpChild = React.createRef();
     }
 
+    ChangeView(page) {
+        navigate(page);
+    }
+
     toggleDrawer = () => this.setState({ open: !this.state.open });
     closeDrawer = () => this.setState({open: false});
 
@@ -39,19 +44,52 @@ export default class NavBar extends React.Component {
                         <IconButton className="menuButton" color="inherit" aria-label="Menu" onClick={this.toggleDrawer}>
                             <MenuIcon />
                         </IconButton>
-                        <img src={logoSvg} className="navTitle" alt="talli" />
+                        <div className="layout">
+                            <div className="titleAndHome">
+                                <h2 className="title">Wise-Vizs</h2>
+                                <Button color="inherit" onClick={() => {
+                                    this.ChangeView('/');
+                                    this.props.updateClickedUsername('');
+                                }}>Home</Button>
+                            </div>
+                            <div className="accountFormat">
+                                { this.props.user !== null && (
+                                    <img className="roundedCircleArticleImgNavBar"
+                                        src={"http://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/profile_picture/"
+                                            + this.props.user.email + '/' + this.props.user.email}
+                                        alt="user" onError={(e)=>{e.target.onerror = null; e.target.src=img}}>
+                                    </img>
+                                )}
+                                <Button color="inherit" className="account" onClick={() => {
+                                    if (this.props.user == null) {
+                                        this.ChangeView('/login');
+                                    } else {
+                                        this.ChangeView('/user');
+                                    }
+                                }}>Account</Button>
+                            </div>
+                        </div>
                     </Toolbar>
                 </AppBar>
                 <Drawer open={this.state.open} onClose={this.closeDrawer}>
                     <div tabIndex={0} role="button" onClick={this.closeDrawer}>
                         <div width="250">
-                            <ListItem button key='Home'>
+                            <ListItem button key='Home' onClick={() => {
+                                this.ChangeView('/');
+                                this.props.updateClickedUsername('');
+                            }} >
                                 <ListItemIcon><HomeIcon /></ListItemIcon>
                                 <ListItemText primary='Home' />
                             </ListItem>
-                            <ListItem button key='Vote' >
-                                <ListItemIcon><VoteIcon /></ListItemIcon>
-                                <ListItemText primary='Vote' />
+                            <ListItem button key='Account' onClick={() => {
+                                if (this.props.user == null) {
+                                    this.ChangeView('/login');
+                                } else {
+                                    this.ChangeView('/user');
+                                }
+                            }} >
+                                <ListItemIcon><OrganizerIcon /></ListItemIcon>
+                                <ListItemText primary='Account' />
                             </ListItem>
                             <Divider />
                             <ListItem button key='Help' onClick={() => this.helpChild.current.handleOpen()}>

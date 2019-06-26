@@ -13,15 +13,88 @@ import './App.css';
  * NavBar
 */
 export default class App extends Component {
-  render() {
+    constructor() {
+        super();
+        this.state = {
+            loggedIn: false,
+            user: '',
+            clickedUsername: '',
+            clickedPost: [],
+        };
+    }
+
+    componentDidMount() {
+        const user = sessionStorage.getItem('email') ? {
+            email: sessionStorage.getItem('email'),
+            username: sessionStorage.getItem('username'),
+            password: sessionStorage.getItem('password')
+        } : null;
+        this.setState({
+            loggedIn: user ? true : false,
+            user
+        });
+    }
+
+    updateClickedUsername(username) {
+        this.setState({
+            clickedUsername: username,
+        });
+        sessionStorage.setItem('clickedUsername', username);
+    }
+
+    updateClickedPost(post) {
+        this.setState({
+            clickedPost: post,
+        });
+        sessionStorage.setItem('clickedPost', post);
+    }
+
+    onSuccess(userEmail, username, password) {
+        this.setState({
+            loggedIn: true,
+            user: {
+                email: userEmail,
+                username: username,
+                password: password,
+            }
+        });
+        sessionStorage.setItem('email', userEmail);
+        sessionStorage.setItem('username', username);
+        sessionStorage.setItem('password', password);
+    }
+
+    logout() {
+        this.setState({
+            loggedIn: false,
+            user: null
+        });
+        sessionStorage.removeItem('email');
+        sessionStorage.removeItem('username');
+        sessionStorage.removeItem('password');
+    }
+
+    render() {
         return (
-            <MuiThemeProvider theme={theme}>
-                <div>
-                    <NavBar />
-                    <RoutedApp/>
-                </div>
-            </MuiThemeProvider>
+            <div className="background">
+                <MuiThemeProvider theme={theme}>
+                    <div>
+                        <NavBar updateClickedUsername={this.updateClickedUsername.bind(this)} user={this.state.user}/>
+                        <RoutedApp
+                            loggedIn={this.loggedIn}
+                            onSuccess={this.onSuccess.bind(this)}
+                            logout={this.logout.bind(this)}
+                            user={this.state.user}
+                            history={true}
+                            clickedUsername={this.state.clickedUsername}
+                            updateClickedUsername={this.updateClickedUsername.bind(this)}
+                            clickedPost={this.state.clickedPost}
+                            updateClickedPost={this.updateClickedPost.bind(this)}
+                        />
+                    </div>
+                </MuiThemeProvider>
+            </div>
         );
     }
 }
+
 

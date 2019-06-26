@@ -1,6 +1,10 @@
 import React from 'react';
 import createReactClass from 'create-react-class';
 import MainPage from '../components/MainPage';
+import Register from '../components/Register';
+import Login from '../components/Login';
+import User from '../components/User';
+import PostContent from '../components/PostContent';
 
 var RouterMixin = require('react-mini-router').RouterMixin;
 
@@ -10,22 +14,77 @@ var RouterMixin = require('react-mini-router').RouterMixin;
  */
 var RoutedApp = createReactClass({
 
-    mixins: [RouterMixin],
-
-    // TODO: Set up /vote/:text (voteWithID) to handle url-injected event IDs
-    //      (currently displays the same as /vote)
-    routes: {
-        '/': 'home',
+    getInitialState() {
+        return { loggedIn: this.props.loggedIn};
     },
 
-    render: function () {
+    mixins: [RouterMixin],
+
+    routes: {
+        '/': 'home',
+        '/register': 'register',
+        '/login': 'login',
+        '/user': 'user',
+        '/postContent': 'postContent',
+    },
+
+    render() {
         return this.renderCurrentRoute();
     },
 
-    home: function () {
+    home() {
         return (
-            <MainPage/>
+            <MainPage
+                loggedIn={this.props.loggedIn}
+                onSuccess={this.props.onSuccess}
+                logout={this.props.logout}
+                user={this.props.user}
+                updateClickedUsername={this.props.updateClickedUsername}
+                clickedUsername={this.props.clickedUsername}
+                clickedPost={this.props.clickedPost}
+                updateClickedPost={this.props.updateClickedPost}
+            />
         );
+    },
+
+    register() {
+        return (
+            <Register
+            />
+        );
+    },
+
+    login() {
+        return (
+            <Login
+                loggedIn={this.props.loggedIn}
+                onSuccess={this.props.onSuccess}
+                user={this.props.user}
+            />
+        );
+    },
+
+    user() {
+        return (
+            <User
+                logout={this.props.logout}
+                user={this.props.user}
+                onSuccess={this.props.onSuccess}
+            />
+        );
+    },
+
+    postContent() {
+        return (
+            <PostContent
+                clickedPost={this.props.clickedPost}
+                updateClickedPost={this.props.updateClickedPost}
+            />
+        )
+    },
+
+    notFound(path) {
+        return <div className="not-found">Page Not Found: {path}</div>;
     }
 });
 
