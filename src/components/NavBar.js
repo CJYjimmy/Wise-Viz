@@ -9,6 +9,7 @@ import OrganizerIcon from '@material-ui/icons/AssignmentInd';
 import VoteIcon from '@material-ui/icons/HowToVote';
 import { navigate } from 'react-mini-router';
 import { Drawer, ListItemIcon, Button, ListItemText, ListItem, Divider } from '@material-ui/core';
+import img from './resources/profile_pictures/default_profile_picture.png';
 
 import './component_style/NavBar.css';
 import HelpView from './Help';
@@ -51,7 +52,14 @@ export default class NavBar extends React.Component {
                                     this.props.updateClickedUsername('');
                                 }}>Home</Button>
                             </div>
-                            <div className="account">
+                            <div className="accountFormat">
+                                { this.props.user !== null && (
+                                    <img className="roundedCircleArticleImgNavBar"
+                                        src={"http://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/profile_picture/"
+                                            + this.props.user.email + '/' + this.props.user.email}
+                                        alt="user" onError={(e)=>{e.target.onerror = null; e.target.src=img}}>
+                                    </img>
+                                )}
                                 <Button color="inherit" className="account" onClick={() => {
                                     if (this.props.user == null) {
                                         this.ChangeView('/login');
