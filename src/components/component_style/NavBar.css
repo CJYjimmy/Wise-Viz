@@ -28,3 +28,14 @@
 .account{
     margin-left: 0%;
 }
+
+.accountFormat{
+    display: inline-flex;
+}
+
+.roundedCircleArticleImgNavBar{
+    border-radius: 50%;
+    height: 90%;
+    width: 40px;
+    margin: 3px;
+}
