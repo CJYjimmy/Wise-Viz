@@ -24,11 +24,15 @@ export default class GetPasswordDialogView extends React.Component {
             email: '',
             invalidEmail: false,
             item: [],
+            sendEmainEnable: false,
+            currentState: "Send Email",
         };
         this.validateEmail = this.validateEmail.bind(this);
         this.sendEmail = this.sendEmail.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getUserInfo = this.getUserInfo.bind(this);
+        this.disableSendEmailBtn = this.disableSendEmailBtn.bind(this);
+        this.sixtySec = this.sixtySec.bind(this);
     }
 
     handleEventChange = () => event => {
@@ -51,6 +55,22 @@ export default class GetPasswordDialogView extends React.Component {
         return re.test(String(email).toLowerCase());
     }
 
+    disableSendEmailBtn () {
+        this.setState({sendEmainEnable: true});
+        let countdown = 30;
+        this.sixtySec(countdown);
+    }
+
+    sixtySec (time) {
+        if (time > 0) {
+            setTimeout(this.sixtySec, 1000, time - 1);
+            this.setState({ currentState:'Resend Email (' + time + ')' });
+        } else {
+            this.setState({ currentState:'Resend Email' });
+            this.setState({sendEmainEnable: false });
+        }
+    }
+
     getUserInfo() {
         let data = {
             email: this.state.email
@@ -71,6 +91,7 @@ export default class GetPasswordDialogView extends React.Component {
         const message = 'Hi, ' + user[0].userName + '\n \nYour password: '
             + user[0].password + '\nHave a good day with Wise-Viz. ^_^'
             + '\n \nBest, \n \nWise-Viz';
+        this.disableSendEmailBtn();
         axios({
             method: "POST",
             url:"send",
@@ -117,7 +138,12 @@ export default class GetPasswordDialogView extends React.Component {
                                 onChange={this.handleEventChange()}
                                 InputLabelProps={{ shrink: true }}
                             />
-                            <Button onClick={() => this.sendEmail()} color="primary" variant="contained">Send Email</Button>
+                            <Button
+                                onClick={() => this.sendEmail()}
+                                color="primary"
+                                variant="contained"
+                                disabled={this.state.sendEmainEnable}
+                                >{this.state.currentState}</Button>
                         </form>
                     </DialogContent>
                     <DialogActions>
