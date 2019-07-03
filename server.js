@@ -86,7 +86,7 @@ app.post('/send', (request, response, next) => {
   var content = request.body.message;
 
   var mail = {
-    from: creds.USER,
+    from: process.env.USER,
     to: email,
     subject: 'Get back password',
     text: content
