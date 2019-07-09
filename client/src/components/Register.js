@@ -75,7 +75,7 @@ export default class Register extends React.Component {
                     userID: Math.random().toString(36).substr(2, 9),
                     userName: this.state.newUserData.userName,
                     password: this.state.newUserData.password,
-                    email: this.state.newUserData.email,
+                    email: this.state.newUserData.email.toLowerCase(),
                 };
                 let confirmPassword = this.state.newUserData.confirmPassword;
                 if (confirmPassword === data.password && !this.existUsername(data.userName)

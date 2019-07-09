@@ -58,7 +58,7 @@ export default class Register extends React.Component {
 
     checkUserInfoAndLogin() {
         let data = {
-            email: this.state.userData.email
+            email: this.state.userData.email.toLowerCase(),
         };
         let request = new Request('api/user-info/check-email', {
             method: 'POST',
@@ -70,7 +70,7 @@ export default class Register extends React.Component {
             .then(items => this.setState({items}))
             .then((event) => {
                 let data = {
-                    email: this.state.userData.email,
+                    email: this.state.userData.email.toLowerCase(),
                     password: this.state.userData.password
                 };
                 if (this.existEmailAndPasswordCorrect(data.email, data.password)) {
