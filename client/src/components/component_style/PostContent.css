@@ -21,3 +21,26 @@
     word-break: break-word;
     overflow-wrap: break-word;
 }
+
+.commentsLayout{
+    display: inline-grid;
+    width: 100%;
+}
+
+.commentBtn{
+    color: yellow;
+    height: 30px;
+    margin-left: 10px;
+    font-size: 20px;
+    background-color: gray;
+}
+
+.commentHeader{
+    color: #ffffff;
+}
+
+Button.commentBtn:hover {
+    color: #428bca;
+    text-decoration: none;
+    cursor: pointer;
+}
