@@ -73,7 +73,7 @@ export default class GetPasswordDialogView extends React.Component {
 
     getUserInfo() {
         let data = {
-            email: this.state.email
+            email: this.state.email.toLowerCase()
         };
         let request = new Request('api/user-info/check-email', {
             method: 'POST',
@@ -83,7 +83,7 @@ export default class GetPasswordDialogView extends React.Component {
         fetch(request)
             .then(response => response.json())
             .then(item => this.setState({item}))
-            .then(() => this.handleSubmit(this.state.email, this.state.item))
+            .then(() => this.handleSubmit(this.state.email.toLowerCase(), this.state.item))
             .catch(err => console.log(err));
     }
 
@@ -109,7 +109,7 @@ export default class GetPasswordDialogView extends React.Component {
     }
 
     sendEmail () {
-        let email = this.state.email;
+        let email = this.state.email.toLowerCase();
         let result = this.validateEmail(email);
         if (!result) {
             this.setState({ invalidEmail:!result });
