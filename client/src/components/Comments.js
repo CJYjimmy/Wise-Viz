@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import './component_style/PostContent.css';
 import ChangePageView from './ChangePage';
 import { navigate } from 'react-mini-router';
+import Moment from 'react-moment';
 
 export default class Comments extends React.Component {
     ChangeView(page) {
@@ -13,6 +14,7 @@ export default class Comments extends React.Component {
         super(props);
         this.state = {
             post: this.props.clickedPost,
+            hasTable: this.props.clickedPost.comment,
             comments: [],
             numOfComments: 0,
             currentPage: 1,
@@ -26,10 +28,11 @@ export default class Comments extends React.Component {
         this.updataComments = this.updataComments.bind(this);
         this.changePageChild = React.createRef();
         this.commentPost = this.commentPost.bind(this);
+        this.getRelativeTime = this.getRelativeTime.bind(this);
     }
 
     componentDidMount() {
-        if (this.state.post.comment) {
+        if (this.state.hasTable) {
             this.getComments();
         }
     }
@@ -111,7 +114,7 @@ export default class Comments extends React.Component {
 
     commentPost() {
         if (this.props.user) {
-            if (!this.state.post.comment) {
+            if (!this.state.hasTable) {
                 let data = { id:this.state.post.postID };
                 let request = new Request('/api/comment-info/create-table', {
                     method: 'POST',
@@ -121,9 +124,21 @@ export default class Comments extends React.Component {
                 fetch(request)
                     .then(response => response.json());
             }
+            let tempPost = this.state.post;
+            tempPost.comment = true;
+            this.props.updateClickedPost(tempPost);
             this.props.reverseState();
         } else {
             this.ChangeView('/login');
+        }
+    }
+
+    getRelativeTime(time) {
+        if (time) {
+            let temp = time.split(' ');
+            return temp[0] + "T" + temp[1] + "-0000";
+        } else {
+            return '';
         }
     }
 
@@ -131,51 +146,42 @@ export default class Comments extends React.Component {
         return (
             <div className="content">
                 <br />
-                { this.state.post.comment === true && (
-                    <div>
-                        <h2 className="commentHeader">Comments:</h2>
-                        <Button className="commentBtn" onClick={() => this.commentPost()}>Post Comment</Button>
-                        <br /> <br />
-                        <form className="grid" method="post" action="">
-                            <br/>
-                            <ChangePageView ref={this.changePageChild} choosePage={this.updateCurrentComments} totalPages={this.state.numOfPages} />
-                            {this.state.currentShownComments.map((comment, index) => (
-                                <article className="postArticle" key={index}>
-                                    <fieldset className="postFieldset">
-                                        <div className="commentsLayout">
-                                            <div className="postProfile">
-                                                <p className="userInfoP">{comment.user} |  {comment.time}</p>
-                                            </div>
-                                            <hr className="hr" width="100%" color="#7986cb" size={3} />
-                                            <p className="postContent">{comment.content}</p>
+                <div>
+                    <h2 className="commentHeader">Comments:</h2>
+                    <Button className="commentBtn" onClick={() => this.commentPost()}>Post Comment</Button>
+                    <br /> <br />
+                    <form className="grid" method="post" action="">
+                        <br/>
+                        <ChangePageView ref={this.changePageChild} choosePage={this.updateCurrentComments} totalPages={this.state.numOfPages} />
+                        {this.state.currentShownComments.map((comment, index) => (
+                            <article className="postArticle" key={index}>
+                                <fieldset className="postFieldset">
+                                    <div className="commentsLayout">
+                                        <div className="postProfile">
+                                            <p className="userInfoP">{comment.user} |  <Moment fromNow>{this.getRelativeTime(comment.time)}</Moment></p>
                                         </div>
-                                    </fieldset>
-                                    <br/>
-                                </article>
-                            ))}
-                        </form>
-                        <div className="pageButtons">
-                            {this.state.buttons.map((b, index) => {
-                                if (b === this.state.currentPage) {
-                                    return (<Button className="currentPageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentComments(b)}>{b}</Button>)
-                                }
-                                else if (b === '...') {
-                                    return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.changePageChild.current.handleOpen()}>{b}</Button>)
-                                }
-                                else {
-                                    return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentComments(b)}>{b}</Button>)
-                                }
-                            })}
-                        </div>
-                    </div>
-                )}
-                { this.state.post.comment === false && (
-                    <form>
-                        <h2 className="commentHeader">Comments:</h2>
-                        <br /> <br />
-                        <Button className="commentBtn" onClick={() => this.commentPost()}>Post Comment</Button>
+                                        <hr className="hr" width="100%" color="#7986cb" size={3} />
+                                        <p className="postContent">{comment.content}</p>
+                                    </div>
+                                </fieldset>
+                                <br/>
+                            </article>
+                        ))}
                     </form>
-                )}
+                    <div className="pageButtons">
+                        {this.state.buttons.map((b, index) => {
+                            if (b === this.state.currentPage) {
+                                return (<Button className="currentPageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentComments(b)}>{b}</Button>)
+                            }
+                            else if (b === '...') {
+                                return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.changePageChild.current.handleOpen()}>{b}</Button>)
+                            }
+                            else {
+                                return (<Button className="pageButton" key={index} num={b} variant="contained" onClick={() => this.updateCurrentComments(b)}>{b}</Button>)
+                            }
+                        })}
+                    </div>
+                </div>
             </div>
         );
     }
