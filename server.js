@@ -1,5 +1,6 @@
 const main = require('./main');
 const postInfo = require('./postInfo');
+const commentInfo = require('./commentInfo');
 let express = require('express');
 let bodyParser = require('body-parser');
 let morgan = require('morgan');
@@ -44,7 +45,7 @@ let pool = new pg.Pool({
     password: process.env.PASSWORD,
     host: process.env.HOST,
     port: process.env.PG_PORT,
-    max: 20
+    max: 30
 });
 
 let app = express();
@@ -64,6 +65,10 @@ app.use(function(req, res, next) {
   res.header("access-control-allow-methods", "GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS")
   next();
 });
+
+app.post('/api/comment-info/get', (request, response) => commentInfo.getTableData(request, response, pool));
+app.post('/api/comment-info/post', (request, response) => commentInfo.postTableData(request, response, pool));
+app.post('/api/comment-info/create-table', (request, response) => commentInfo.createTable(request, response, pool));
 
 app.get('/api/user-info/get', (request, response) => main.getTableData(request, response, pool));
 app.post('/api/user-info/get-username', (request, response) => main.getUsername(request, response, pool));

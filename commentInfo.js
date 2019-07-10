@@ -11,7 +11,7 @@ const createTable = (request, response, pool) => {
                     console.log('GET SUCCEFUL');
                 }
             })
-            db.query('CREATE TABLE "' + id + '" ( "commentID" varchar NOT NULL, "time" varchar NOT NULL , "user" varchar NOT NULL, "content" varchar NOT NULL, PRIMARY KEY ("commentID") )', (err, table) => {
+            db.query('CREATE TABLE "' + id + '" ( "commentID" varchar NOT NULL, "time" varchar NOT NULL , "user" varchar NOT NULL, "content" varchar NOT NULL, PRIMARY KEY ("commentID"), FOREIGN KEY ("user") REFERENCES "userInfo" ("userName") ON UPDATE CASCADE )', (err, table) => {
                 db.release();
                 if (err) {
                     return console.log(err);

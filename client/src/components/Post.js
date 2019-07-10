@@ -4,6 +4,7 @@ import './component_style/MainPage.css';
 import img from './resources/profile_pictures/default_profile_picture.png';
 import { navigate } from 'react-mini-router';
 import ChangePageView from './ChangePage';
+import Moment from 'react-moment';
 
 export default class Post extends React.Component {
 
@@ -26,6 +27,7 @@ export default class Post extends React.Component {
         this.updateCurrentPosts = this.updateCurrentPosts.bind(this);
         this.updataPosts = this.updataPosts.bind(this);
         this.changePageChild = React.createRef();
+        this.getRelativeTime = this.getRelativeTime.bind(this);
     }
 
     componentDidMount() {
@@ -115,6 +117,15 @@ export default class Post extends React.Component {
         this.setState({ buttons:buttons });
     }
 
+    getRelativeTime(time) {
+        if (time) {
+            let temp = time.split(' ');
+            return temp[0] + "T" + temp[1] + "-0000";
+        } else {
+            return '';
+        }
+    }
+
     render() {
         return (
             <div>
@@ -135,7 +146,7 @@ export default class Post extends React.Component {
                                             <Button className="userInfoPUsername" onClick={() => {
                                                     this.props.updateClickedUsername(post.username);
                                                 }}>{post.username}</Button>
-                                            <p className="userInfoP">| {post.postTime}</p>
+                                            <p className="userInfoP">| <Moment fromNow>{this.getRelativeTime(post.postTime)}</Moment></p>
                                         </div>
                                         <hr className="hr" width="100%" color="#7986cb" size={3} />
                                         <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => {
