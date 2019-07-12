@@ -29,12 +29,29 @@ export default class Comments extends React.Component {
         this.changePageChild = React.createRef();
         this.commentPost = this.commentPost.bind(this);
         this.getRelativeTime = this.getRelativeTime.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
     }
 
     componentDidMount() {
         if (this.state.hasTable) {
             this.getComments();
         }
+    }
+
+    deleteComment(commentID) {
+        let data = {
+            commentID: commentID,
+            postID: this.state.post.postID
+        }
+        let request = new Request('/api/comment-info/delete', {
+            method: 'DELETE',
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(data)
+        });
+        fetch(request)
+            .then(response => response.json())
+            .then(() => this.getComments())
+            .then(() => this.ChangeView('/postContent'));
     }
 
     getComments() {
@@ -159,6 +176,9 @@ export default class Comments extends React.Component {
                                     <div className="commentsLayout">
                                         <div className="postProfile">
                                             <p className="userInfoP">{comment.user} |  <Moment fromNow>{this.getRelativeTime(comment.time)}</Moment></p>
+                                            { (this.props.user ? this.props.user.username : '') === comment.user && (
+                                                <Button className="deleteBtn" onClick={() => this.deleteComment(comment.commentID)}>Delete</Button>
+                                            )}
                                         </div>
                                         <hr className="hr" width="100%" color="#7986cb" size={3} />
                                         <p className="postContent">{comment.content}</p>

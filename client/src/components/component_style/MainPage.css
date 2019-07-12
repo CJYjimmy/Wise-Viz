@@ -8,6 +8,12 @@ Button.userInfoPUsername:hover {
     text-decoration: none;
 }
 
+Button.deleteBtn:hover {
+    color: #428bca;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .buttons {
     flex: 1;
     border: none;
@@ -31,6 +37,15 @@ Button.userInfoPUsername:hover {
 
 .container{
     flex-wrap: nowrap | wrap | wrap-reverse;
+}
+
+.deleteBtn{
+    color: yellow;
+    height: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    background-color: gray;
 }
 
 .fieldset{
@@ -169,4 +184,3 @@ legend{
     text-align: center;
     color: #ffffff;
 }
-
