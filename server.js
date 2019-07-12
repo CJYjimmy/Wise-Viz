@@ -69,6 +69,7 @@ app.use(function(req, res, next) {
 app.post('/api/comment-info/get', (request, response) => commentInfo.getTableData(request, response, pool));
 app.post('/api/comment-info/post', (request, response) => commentInfo.postTableData(request, response, pool));
 app.post('/api/comment-info/create-table', (request, response) => commentInfo.createTable(request, response, pool));
+app.delete('/api/comment-info/delete', (request, response) => commentInfo.deleteTableData(request, response, pool));
 
 app.get('/api/user-info/get', (request, response) => main.getTableData(request, response, pool));
 app.post('/api/user-info/get-username', (request, response) => main.getUsername(request, response, pool));
@@ -84,7 +85,6 @@ app.post('/api/post-info/check-email', (request, response) => postInfo.checkEmai
 app.post('/api/post-info/post', (request, response) => postInfo.postTableData(request, response, pool));
 app.put('/api/post-info/put', (request, response) => postInfo.putTableData(request, response, pool));
 app.delete('/api/post-info/delete', (request, response) => postInfo.deleteTableData(request, response, pool));
-
 
 app.post('/send', (request, response, next) => {
   var email = request.body.email;

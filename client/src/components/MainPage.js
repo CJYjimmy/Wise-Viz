@@ -65,7 +65,11 @@ export default class MainPage extends React.Component {
                             }
                             {
                                 this.state.showPosts === true && (
-                                    <Post updateClickedUsername={this.props.updateClickedUsername} clickedUsername={this.props.clickedUsername} updateClickedPost={this.props.updateClickedPost}/>
+                                    <Post
+                                        user={this.props.user}
+                                        updateClickedUsername={this.props.updateClickedUsername}
+                                        clickedUsername={this.props.clickedUsername}
+                                        updateClickedPost={this.props.updateClickedPost}/>
                                 )
                             }
                         </Grid>
@@ -105,6 +109,10 @@ export default class MainPage extends React.Component {
                                                 </ListItem>
 
                                                 <ListItem>
+                                                    <Button variant="contained" color="primary" className="buttons" onClick={() => this.props.updateClickedUsername(this.props.user.username)}>My Posts</Button>
+                                                </ListItem>
+
+                                                <ListItem>
                                                     <Button variant="contained" color="secondary" className="buttons" onClick={() => this.logout()}>Logout</Button>
                                                 </ListItem>
                                             </div>
@@ -121,7 +129,11 @@ export default class MainPage extends React.Component {
                     <Grid container justify="center">
                         <Grid item sm={8}>
                             <h1 className="userPostTitle">{this.props.clickedUsername} 's posts</h1>
-                            <Post updateClickedUsername={this.props.updateClickedUsername} clickedUsername={this.props.clickedUsername} updateClickedPost={this.props.updateClickedPost}/>
+                            <Post
+                                user={this.props.user}
+                                updateClickedUsername={this.props.updateClickedUsername}
+                                clickedUsername={this.props.clickedUsername}
+                                updateClickedPost={this.props.updateClickedPost}/>
                         </Grid>
                     </Grid>
                 )}

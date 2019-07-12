@@ -69,8 +69,29 @@ const postTableData = (request, response, pool) => {
     })
 }
 
+const deleteTableData = (request, response, pool) => {
+    let postID = request.body.postID;
+    let commentID = request.body.commentID;
+    pool.connect((err, db, done) => {
+        if (err) {
+            return console.log(err);
+        } else {
+            db.query('DELETE FROM "' + postID + '" WHERE "commentID"=$1', [commentID], (err, table) => {
+                db.release();
+                if (err) {
+                    return console.log(err);
+                } else {
+                    console.log('DELETE SUCCEFUL');
+                }
+            });
+            response.send({delete:'SUCCEFUL'});
+        }
+    })
+}
+
 module.exports = {
     createTable,
     getTableData,
-    postTableData
+    postTableData,
+    deleteTableData
 }

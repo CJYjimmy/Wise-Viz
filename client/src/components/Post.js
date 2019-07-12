@@ -28,10 +28,27 @@ export default class Post extends React.Component {
         this.updataPosts = this.updataPosts.bind(this);
         this.changePageChild = React.createRef();
         this.getRelativeTime = this.getRelativeTime.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     componentDidMount() {
         this.getPosts();
+    }
+
+    deletePost(postID, comment) {
+        let data = {
+            postID: postID,
+            comment: comment
+        }
+        let request = new Request('/api/post-info/delete', {
+            method: 'DELETE',
+            headers: new Headers({ 'Content-Type': 'application/json' }),
+            body: JSON.stringify(data)
+        });
+        fetch(request)
+            .then(response => response.json())
+            .then(() => this.getPosts())
+            .then(() => this.ChangeView('/'));
     }
 
     getPosts() {
@@ -147,6 +164,9 @@ export default class Post extends React.Component {
                                                     this.props.updateClickedUsername(post.username);
                                                 }}>{post.username}</Button>
                                             <p className="userInfoP">| <Moment fromNow>{this.getRelativeTime(post.postTime)}</Moment></p>
+                                            { (this.props.user ? this.props.user.username : '') === post.username && (
+                                                <Button className="deleteBtn" onClick={() => this.deletePost(post.postID, post.comment)}>Delete</Button>
+                                            )}
                                         </div>
                                         <hr className="hr" width="100%" color="#7986cb" size={3} />
                                         <h2 className="h2ForPostTitle"><Button className="postTitle" onClick={() => {

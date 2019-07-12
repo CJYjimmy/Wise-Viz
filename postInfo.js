@@ -87,21 +87,30 @@ const postTableData = (request, response, pool) => {
 }
 
 const deleteTableData = (request, response, pool) => {
-    let email = request.body.email;
-    let postTime = request.body.postTime;
-    let values = [email, postTime];
+    let postID = request.body.postID;
+    let comment = request.body.comment;
     pool.connect((err, db, done) => {
         if (err) {
             return console.log(err);
         } else {
-            db.query('DELETE FROM "postInfo" WHERE "userEmail"=$1 AND "postTime"=$2', values, (err, table) => {
-                done();
+            if (comment) {
+                db.query('DROP TABLE "' + postID + '"', (err, table) => {
+                    if (err) {
+                        return console.log(err);
+                    } else {
+                        console.log('DROP SUCCEFUL');
+                    }
+                });
+            }
+            db.query('DELETE FROM "postInfo" WHERE "postID"=$1', [postID], (err, table) => {
+                db.release();
                 if (err) {
                     return console.log(err);
                 } else {
                     console.log('DELETE SUCCEFUL');
                 }
-            })
+            });
+            response.send({delete:'SUCCEFUL'});
         }
     })
 }
