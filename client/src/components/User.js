@@ -163,7 +163,7 @@ export default class User extends React.Component {
 
                             }
                             <img className="roundedCircleArticleImg"
-                                src={this.props.user.url ? "http://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/" + this.props.user.url + "/profile_picture/"
+                                src={this.props.user.url ? "https://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/" + this.props.user.url + "/profile_picture/"
                                     + this.props.user.email + '/' + this.props.user.email + ".jpg" : img}
                                 alt="user" onError={(e)=>{e.target.onerror = null; e.target.src=img}}>
                             </img>

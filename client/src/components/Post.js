@@ -17,7 +17,7 @@ export default class Post extends React.Component {
         this.state = {
             posts: [],
             numOfPosts: 0,
-            currentPage: 1,
+            currentPage: this.props.clickedUsername === '' ? this.props.currentPageNum : 1,
             numOfPages: 0,
             currentShownPosts: [],
             buttons: [],
@@ -85,7 +85,8 @@ export default class Post extends React.Component {
                         numOfPages: numOfPages,
                         currentShownPosts: currentShownPosts,
                     });
-                    this.getPageButtons();
+                    let tempPageNum = this.props.clickedUsername === '' ? this.props.currentPageNum : 1;
+                    this.getPageButtons(tempPageNum);
                 });
     }
 
@@ -103,6 +104,9 @@ export default class Post extends React.Component {
 
     updateCurrentPosts(b) {
         this.setState({ currentPage:b });
+        if (this.props.clickedUsername === '') {
+            this.props.updateCurrentPageNum(b);
+        }
         this.updataPosts(b);
     }
 
@@ -154,7 +158,7 @@ export default class Post extends React.Component {
                             <fieldset className="postFieldset">
                                 <div className="userInfoDiv">
                                     <img className="roundedCircleArticleImg"
-                                        src={post.url ? "http://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/" + post.url + "/profile_picture/"
+                                        src={post.url ? "https://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/" + post.url + "/profile_picture/"
                                             + post.userEmail + '/' + post.userEmail + ".jpg" : img}
                                         alt="user" onError={(e)=>{e.target.onerror = null; e.target.src=img}}>
                                     </img>

@@ -20,6 +20,7 @@ export default class App extends Component {
             user: '',
             clickedUsername: '',
             clickedPost: [],
+            currentPageNum: 1,
         };
     }
 
@@ -34,6 +35,13 @@ export default class App extends Component {
             loggedIn: user ? true : false,
             user
         });
+    }
+
+    updateCurrentPageNum(currentPageNum) {
+        this.setState({
+            currentPageNum: currentPageNum,
+        });
+        sessionStorage.setItem('currentPageNum', currentPageNum);
     }
 
     updateClickedUsername(username) {
@@ -93,6 +101,8 @@ export default class App extends Component {
                             updateClickedUsername={this.updateClickedUsername.bind(this)}
                             clickedPost={this.state.clickedPost}
                             updateClickedPost={this.updateClickedPost.bind(this)}
+                            currentPageNum={this.state.currentPageNum}
+                            updateCurrentPageNum={this.updateCurrentPageNum.bind(this)}
                         />
                     </div>
                 </MuiThemeProvider>

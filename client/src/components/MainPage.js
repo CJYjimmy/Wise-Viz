@@ -67,6 +67,8 @@ export default class MainPage extends React.Component {
                                 this.state.showPosts === true && (
                                     <Post
                                         user={this.props.user}
+                                        currentPageNum={this.props.currentPageNum}
+                                        updateCurrentPageNum={this.props.updateCurrentPageNum}
                                         updateClickedUsername={this.props.updateClickedUsername}
                                         clickedUsername={this.props.clickedUsername}
                                         updateClickedPost={this.props.updateClickedPost}/>
@@ -130,6 +132,8 @@ export default class MainPage extends React.Component {
                         <Grid item sm={8}>
                             <h1 className="userPostTitle">{this.props.clickedUsername} 's posts</h1>
                             <Post
+                                currentPageNum={this.props.currentPageNum}
+                                updateCurrentPageNum={this.props.updateCurrentPageNum}
                                 user={this.props.user}
                                 updateClickedUsername={this.props.updateClickedUsername}
                                 clickedUsername={this.props.clickedUsername}
