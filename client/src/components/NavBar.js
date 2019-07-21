@@ -55,8 +55,8 @@ export default class NavBar extends React.Component {
                             <div className="accountFormat">
                                 { this.props.user !== null && (
                                     <img className="roundedCircleArticleImgNavBar"
-                                        src={"http://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/" + this.props.user.url + "/profile_picture/"
-                                            + this.props.user.email + '/' + this.props.user.email + ".jpg"}
+                                        src={this.props.user.email ? "https://res.cloudinary.com/cjyjimmy520/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/" + this.props.user.url + "/profile_picture/"
+                                            + this.props.user.email + '/' + this.props.user.email + ".jpg" : img}
                                         alt="user" onError={(e)=>{e.target.onerror = null; e.target.src=img}}>
                                     </img>
                                 )}
